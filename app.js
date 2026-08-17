@@ -1542,72 +1542,73 @@ function setupModalCSVMapping() {
   }
 
   /* Export Filtered CSV */
-  function exportFilteredCSV() {
-    if (State.filteredTransactions.length === 0) {
-      showToast('No transactions to export', 'error');
-      return;
-    }
-
-    const exportData = State.filteredTransactions.map(tx => ({
-      Date: tx.date,
-      Description: tx.description,
-      Category: tx.category,
-      Type: tx.type,
-      Amount: tx.type === 'expense' ? -tx.amount : tx.amount
-    }));
-
-    const csvStr = Papa.unparse(exportData);
-    const blob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `apex_finance_export_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    showToast('Exported filtered transactions to CSV!', 'success');
+function exportFilteredCSV() {
+  if (State.filteredTransactions.length === 0) {
+    showToast('No transactions to export', 'error');
+    return;
   }
 
-  function setTheme(theme) {
-    State.theme = theme;
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(STORAGE_KEYS.THEME, theme);
-    renderCharts();
-  }
+  const exportData = State.filteredTransactions.map(tx => ({
+    Date: tx.date,
+    Description: tx.description,
+    Category: tx.category,
+    Type: tx.type,
+    Amount: tx.type === 'expense' ? -tx.amount : tx.amount
+  }));
 
-  function showToast(message, type = 'info') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `<span>${escapeHTML(message)}</span>`;
-    container.appendChild(toast);
+  const csvStr = Papa.unparse(exportData);
+  const blob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', `apex_finance_export_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(30px)';
-      toast.style.transition = 'all 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, 3500);
-  }
+  showToast('Exported filtered transactions to CSV!', 'success');
+}
 
-  function formatCurrency(val) {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(val || 0);
-  }
+function setTheme(theme) {
+  State.theme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem(STORAGE_KEYS.THEME, theme);
+  localStorage.setItem('apex_finance_theme', theme);
+  renderCharts();
+}
 
-  function formatMonthLabel(mKey) {
-    // mKey format: YYYY-MM
-    const [year, month] = mKey.split('-');
-    const date = new Date(year, parseInt(month, 10) - 1, 1);
-    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-  }
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span>${escapeHTML(message)}</span>`;
+  container.appendChild(toast);
 
-  function escapeHTML(str) {
-    return (str || '').replace(/[&<>'"]/g,
-      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-    );
-  }
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(30px)';
+    toast.style.transition = 'all 0.3s ease';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+function formatCurrency(val) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }).format(val || 0);
+}
+
+function formatMonthLabel(mKey) {
+  // mKey format: YYYY-MM
+  const [year, month] = mKey.split('-');
+  const date = new Date(year, parseInt(month, 10) - 1, 1);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+function escapeHTML(str) {
+  return (str || '').replace(/[&<>'"]/g,
+    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  );
 }
