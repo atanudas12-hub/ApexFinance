@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ApexFinance — Personal Finance & Budget Dashboard</title>
+  <title>ApexFinance — Personal Finance & Budget Intelligence</title>
   <meta name="description"
-    content="A powerful, private, offline-first personal finance dashboard for CSV analysis, auto-categorization, budgeting, and insights.">
+    content="A powerful, private, offline-first personal finance platform for bank CSV parsing, auto-categorization, budgeting, and interactive Chart.js analytics.">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,596 +18,262 @@
   <!-- CDNs -->
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- PapaParse for CSV Parsing -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <!-- Chart.js for Visualizations -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="app-container">
+  <div class="landing-container">
 
-    <!-- TOP NAVIGATION HEADER -->
-    <header class="app-header">
+    <!-- LANDING HEADER -->
+    <header class="landing-header">
       <div class="brand">
-        <div class="brand-logo">
-          <i data-lucide="wallet"></i>
-        </div>
-        <div class="brand-text">
-          <h1>ApexFinance</h1>
-        </div>
+        <a href="index.html" class="brand-link" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">
+          <div class="brand-logo">
+            <i data-lucide="wallet"></i>
+          </div>
+          <div class="brand-text">
+            <h1>ApexFinance</h1>
+          </div>
+        </a>
       </div>
 
-      <div class="header-actions">
-        <!-- Single Main CSV File Upload Button -->
-        <button type="button" class="btn btn-primary" onclick="document.getElementById('csv-file-input').click()" title="Upload your bank CSV statement">
-          <i data-lucide="upload-cloud"></i>
-          <span>Upload CSV File</span>
-        </button>
-        <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+      <nav class="landing-nav">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#security" class="nav-link">Privacy &amp; Security</a>
+        <a href="#analytics" class="nav-link">Analytics</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
 
-        <!-- Add Transaction -->
-        <button id="btn-add-tx" class="btn btn-outline btn-sm" title="Manually record a transaction">
-          <i data-lucide="plus"></i>
-          <span>Add Transaction</span>
-        </button>
+      <div class="header-actions">
+        <!-- Start Calculating Primary CTA -->
+        <a href="dashboard.html" class="btn btn-primary" title="Launch Main Finance Dashboard">
+          <i data-lucide="calculator"></i>
+          <span>Start Calculating →</span>
+        </a>
 
         <!-- Theme Toggle -->
-        <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle Dark/Light Mode" title="Toggle theme">
+        <button id="theme-toggle-landing" class="btn btn-icon" aria-label="Toggle Dark/Light Mode" title="Toggle theme">
           <i data-lucide="sun" class="sun-icon"></i>
           <i data-lucide="moon" class="moon-icon"></i>
         </button>
       </div>
     </header>
 
-    <!-- DRAG AND DROP OVERLAY / TARGET -->
-    <div id="drop-zone" class="drop-zone">
-      <div class="drop-zone-content">
-        <i data-lucide="file-up" class="drop-icon"></i>
-        <p>Drop your bank <strong>CSV file</strong> anywhere to instant parse</p>
+    <!-- HERO BANNER SECTION -->
+    <section class="landing-hero-section">
+      <div class="hero-glass-card">
+        <div class="hero-top-grid">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <i data-lucide="shield-check"></i>
+              <span>100% Private &amp; Offline Financial Intelligence</span>
+            </div>
+            <h2 class="hero-title">Master Your Personal Finances with AI Precision</h2>
+            <p class="hero-description">
+              Upload your bank CSV statement to automatically clean, categorize, and analyze your income, expenses, monthly budgets, and spending habits in seconds — 100% client-side &amp; private.
+            </p>
+            <div class="hero-actions">
+              <!-- Start Calculating CTA Button -->
+              <a href="dashboard.html" class="btn btn-primary btn-lg" title="Open Main Dashboard">
+                <i data-lucide="calculator"></i>
+                <span>Start Calculating →</span>
+              </a>
+
+              <a href="dashboard.html" class="btn btn-outline btn-lg" title="Explore Dashboard Features">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Open Dashboard</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div class="hero-image-container">
+              <img src="hero_illustration.jpg" alt="ApexFinance 3D Visual Intelligence" class="hero-illustration-img">
+              <div class="hero-image-backdrop"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-features-grid">
+          <div class="hero-feature-card">
+            <div class="feature-icon feature-icon-purple">
+              <i data-lucide="zap"></i>
+            </div>
+            <div class="feature-info">
+              <h4>Smart Auto-Categorization</h4>
+              <p>Rule-based engine automatically tags salary, groceries, transport, dining out &amp; more.</p>
+            </div>
+          </div>
+
+          <div class="hero-feature-card">
+            <div class="feature-icon feature-icon-green">
+              <i data-lucide="pie-chart"></i>
+            </div>
+            <div class="feature-info">
+              <h4>Dynamic Chart Analytics</h4>
+              <p>Interactive monthly trends, category spend breakdowns, and cash flow charts.</p>
+            </div>
+          </div>
+
+          <div class="hero-feature-card">
+            <div class="feature-icon feature-icon-blue">
+              <i data-lucide="lock"></i>
+            </div>
+            <div class="feature-info">
+              <h4>Zero Server Tracking</h4>
+              <p>Your sensitive bank data stays strictly inside browser local storage. Completely offline.</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- MAIN DASHBOARD CONTENT -->
-    <main class="dashboard-main">
+    <!-- KEY FEATURES SECTION -->
+    <section class="landing-section" id="features">
+      <div class="section-header text-center">
+        <span class="section-badge">Platform Capabilities</span>
+        <h2 class="section-title">Designed for Complete Financial Mastery</h2>
+        <p class="section-subtitle">Everything you need to analyze bank CSV statements, set budget targets, and control your money.</p>
+      </div>
 
-      <!-- EXECUTIVE HOME / OVERVIEW HERO SECTION -->
-      <section class="home-hero-section" id="section-home-hero">
-        <div class="hero-glass-card">
-          <div class="hero-top-grid">
-            <div class="hero-content">
-              <div class="hero-badge">
-                <i data-lucide="shield-check"></i>
-                <span>100% Private &amp; Offline Financial Intelligence</span>
-              </div>
-              <h2 class="hero-title">Master Your Personal Finances with AI Precision</h2>
-              <p class="hero-description">
-                Upload your bank CSV statement to automatically clean, categorize, and analyze your income, expenses, monthly budgets, and spending habits in seconds.
-              </p>
-              <div class="hero-actions">
-                <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-hero').click()" title="Upload your bank CSV statement">
-                  <i data-lucide="upload-cloud"></i>
-                  <span>Upload CSV Statement</span>
-                </button>
-                <input type="file" id="csv-file-input-hero" accept=".csv" style="display: none;">
-                <button class="btn btn-outline btn-lg" onclick="document.getElementById('btn-add-tx').click()" title="Record a manual transaction">
-                  <i data-lucide="plus-circle"></i>
-                  <span>Manual Entry</span>
-                </button>
-                <button class="btn btn-secondary btn-lg" onclick="document.getElementById('btn-edit-budgets').click()" title="Configure monthly category budgets">
-                  <i data-lucide="target"></i>
-                  <span>Manage Budgets</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="hero-right">
-              <div class="hero-image-container">
-                <img src="hero_illustration.jpg" alt="ApexFinance 3D Visual Intelligence" class="hero-illustration-img">
-                <div class="hero-image-backdrop"></div>
-              </div>
-            </div>
+      <div class="landing-features-grid">
+        <div class="card landing-feature-box">
+          <div class="box-icon icon-indigo">
+            <i data-lucide="file-spreadsheet"></i>
           </div>
-          
-          <div class="hero-features-grid">
-            <div class="hero-feature-card">
-              <div class="feature-icon feature-icon-purple">
-                <i data-lucide="zap"></i>
-              </div>
-              <div class="feature-info">
-                <h4>Smart Auto-Categorization</h4>
-                <p>Rule-based engine automatically tags salary, groceries, transport, dining out &amp; more.</p>
-              </div>
-            </div>
-
-            <div class="hero-feature-card">
-              <div class="feature-icon feature-icon-green">
-                <i data-lucide="pie-chart"></i>
-              </div>
-              <div class="feature-info">
-                <h4>Dynamic Chart Analytics</h4>
-                <p>Interactive monthly trends, category spend breakdowns, and cash flow charts.</p>
-              </div>
-            </div>
-
-            <div class="hero-feature-card">
-              <div class="feature-icon feature-icon-blue">
-                <i data-lucide="lock"></i>
-              </div>
-              <div class="feature-info">
-                <h4>Zero Server Tracking</h4>
-                <p>Your sensitive bank data stays strictly inside browser local storage. Completely offline.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TOP METRIC SUMMARY CARDS -->
-      <section class="summary-grid">
-        <!-- Income Card -->
-        <div class="card metric-card metric-income">
-          <div class="metric-header">
-            <span class="metric-title">Total Income</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-up"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-income">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-income-tx">0 transactions</span>
-          </div>
+          <h3>Universal CSV Parser</h3>
+          <p>Import statements from any bank worldwide. Auto-detects columns, handles positive-only records, and maps custom headers instantly.</p>
         </div>
 
-        <!-- Expenses Card -->
-        <div class="card metric-card metric-expense">
-          <div class="metric-header">
-            <span class="metric-title">Total Expenses</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-down"></i>
-            </div>
+        <div class="card landing-feature-box">
+          <div class="box-icon icon-emerald">
+            <i data-lucide="cpu"></i>
           </div>
-          <div class="metric-value" id="val-expenses">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-expense-tx">0 transactions</span>
-          </div>
+          <h3>Smart Keyword Classifier</h3>
+          <p>Advanced rule engine automatically classifies income (Salary, Freelance, Cashback, Interest) vs expenses (Groceries, Utilities, Transport).</p>
         </div>
 
-        <!-- Net Savings Card -->
-        <div class="card metric-card metric-savings">
-          <div class="metric-header">
-            <span class="metric-title">Net Savings</span>
-            <div class="metric-icon">
-              <i data-lucide="piggy-bank"></i>
-            </div>
+        <div class="card landing-feature-box">
+          <div class="box-icon icon-purple">
+            <i data-lucide="bar-chart-2"></i>
           </div>
-          <div class="metric-value" id="val-savings">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-savings">Income minus Expenses</span>
-          </div>
+          <h3>Chart.js Analytics</h3>
+          <p>Visualize spending trends, category distributions, income vs outflow bar charts, and stacked monthly category dynamics.</p>
         </div>
 
-        <!-- Savings Rate Card -->
-        <div class="card metric-card metric-rate">
-          <div class="metric-header">
-            <span class="metric-title">Savings Rate</span>
-            <div class="metric-icon">
-              <i data-lucide="percent"></i>
-            </div>
+        <div class="card landing-feature-box">
+          <div class="box-icon icon-amber">
+            <i data-lucide="target"></i>
           </div>
-          <div class="metric-value" id="val-rate">0.0%</div>
-          <div class="metric-subtext">
-            <div class="mini-progress-bar">
-              <div class="mini-progress-fill" id="fill-savings-rate" style="width: 0%"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- FILTER TOOLBAR -->
-      <section class="card filter-card">
-        <div class="filter-toolbar">
-
-          <!-- Search box -->
-          <div class="filter-group filter-search">
-            <i data-lucide="search" class="search-icon"></i>
-            <input type="text" id="filter-search" placeholder="Search description or merchant..." autocomplete="off">
-            <button id="btn-clear-search" class="btn-clear hidden">&times;</button>
-          </div>
-
-          <!-- Date Quick Presets -->
-          <div class="filter-group">
-            <label for="filter-date-preset">Timeframe</label>
-            <select id="filter-date-preset" class="form-select">
-              <option value="all" selected>All Time</option>
-              <option value="this-month">This Month</option>
-              <option value="last-month">Last Month</option>
-              <option value="last-30">Last 30 Days</option>
-              <option value="ytd">Year to Date (YTD)</option>
-              <option value="custom">Custom Range</option>
-            </select>
-          </div>
-
-          <!-- Custom Date inputs (hidden unless custom selected) -->
-          <div id="custom-date-group" class="filter-group custom-date-group hidden">
-            <div>
-              <label for="filter-start-date">From</label>
-              <input type="date" id="filter-start-date" class="form-input">
-            </div>
-            <div>
-              <label for="filter-end-date">To</label>
-              <input type="date" id="filter-end-date" class="form-input">
-            </div>
-          </div>
-
-          <!-- Category Select -->
-          <div class="filter-group">
-            <label for="filter-category">Category</label>
-            <select id="filter-category" class="form-select">
-              <option value="all">All Categories</option>
-              <!-- Populated dynamically in app.js -->
-            </select>
-          </div>
-
-          <!-- Type filter -->
-          <div class="filter-group">
-            <label for="filter-type">Type</label>
-            <select id="filter-type" class="form-select">
-              <option value="all">All Types</option>
-              <option value="expense">Expenses Only</option>
-              <option value="income">Income Only</option>
-            </select>
-          </div>
-
-          <!-- Action buttons -->
-          <div class="filter-group filter-actions">
-            <button id="btn-reset-filters" class="btn btn-ghost btn-sm" title="Reset all filters">
-              <i data-lucide="rotate-ccw"></i>
-              <span>Reset</span>
-            </button>
-            <button id="btn-export-csv" class="btn btn-outline btn-sm" title="Export currently filtered list to CSV">
-              <i data-lucide="download"></i>
-              <span>Export CSV</span>
-            </button>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- CHARTS SECTION (2x2 GRID) -->
-      <section class="charts-grid">
-        <!-- Chart 1: Monthly Spending Trend (Line) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="line-chart"></i> Monthly Spending Trend</h3>
-            <span class="chart-subtitle">Expense totals by month</span>
-          </div>
-          <div class="chart-container">
-            <canvas id="chart-spending-trend"></canvas>
-          </div>
+          <h3>Category Monthly Budgets</h3>
+          <p>Set custom target limits for Groceries, Dining, Shopping, &amp; Fitness with color-coded safety progress indicators.</p>
         </div>
 
-        <!-- Chart 2: Category Breakdown (Doughnut) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="pie-chart"></i> Spending by Category</h3>
-            <span class="chart-subtitle">Category distribution</span>
+        <div class="card landing-feature-box">
+          <div class="box-icon icon-rose">
+            <i data-lucide="zap"></i>
           </div>
-          <div class="chart-container">
-            <canvas id="chart-category-doughnut"></canvas>
-          </div>
+          <h3>Financial Insights Engine</h3>
+          <p>Automatically flags recurring subscriptions (Netflix, Spotify), detects category spend surges, and calculates projected month-end forecasts.</p>
         </div>
 
-        <!-- Chart 3: Income vs Expense (Grouped Bar) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="bar-chart-2"></i> Income vs Expenses</h3>
-            <span class="chart-subtitle">Monthly cash flow comparison</span>
+        <div class="card landing-feature-box">
+          <div class="box-icon icon-cyan">
+            <i data-lucide="shield-check"></i>
           </div>
-          <div class="chart-container">
-            <canvas id="chart-income-vs-expense"></canvas>
-          </div>
+          <h3>100% Client-Side Privacy</h3>
+          <p>Your financial records never touch a cloud server. Everything stays encrypted in your local browser storage.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="landing-cta-banner" id="analytics">
+      <div class="cta-glass-card text-center">
+        <h2 class="cta-title">Ready to Take Control of Your Money?</h2>
+        <p class="cta-description">No signup required. No credit card. Upload your CSV or manually add transactions in seconds.</p>
+        <div class="cta-actions">
+          <a href="dashboard.html" class="btn btn-primary btn-lg" title="Start Calculating Now">
+            <i data-lucide="calculator"></i>
+            <span>Start Calculating Now →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="landing-section" id="faq">
+      <div class="section-header text-center">
+        <span class="section-badge">Frequently Asked Questions</span>
+        <h2 class="section-title">Everything You Need to Know</h2>
+      </div>
+
+      <div class="faq-grid">
+        <div class="card faq-card">
+          <h4><i data-lucide="help-circle"></i> How is my bank data kept private?</h4>
+          <p>ApexFinance operates 100% client-side in your web browser. Your bank CSV files are parsed locally using PapaParse and stored in browser <code>localStorage</code>. No data is sent to any server.</p>
         </div>
 
-        <!-- Chart 4: Category Spending Over Time (Stacked Bar) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="layers"></i> Category Spend Over Time</h3>
-            <span class="chart-subtitle">Monthly breakdown per category</span>
-          </div>
-          <div class="chart-container">
-            <canvas id="chart-category-stacked"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <!-- BUDGETING & INSIGHTS ROW (2 COLUMNS) -->
-      <section class="insights-budget-grid">
-
-        <!-- Category Budgets Card -->
-        <div class="card widget-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="target"></i> Monthly Category Budgets</h3>
-              <span class="chart-subtitle">Track spending against limits</span>
-            </div>
-            <button id="btn-edit-budgets" class="btn btn-ghost btn-sm">
-              <i data-lucide="settings"></i> Manage Budgets
-            </button>
-          </div>
-          <div id="budget-progress-list" class="budget-progress-list">
-            <!-- Dynamically generated in app.js -->
-          </div>
+        <div class="card faq-card">
+          <h4><i data-lucide="help-circle"></i> What CSV bank formats are supported?</h4>
+          <p>Any CSV file with transaction dates, descriptions, and amounts. Our auto-detection mapper identifies headers automatically, and you can map custom column names with a live preview.</p>
         </div>
 
-        <!-- Smart Insights Engine -->
-        <div class="card widget-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="zap"></i> Smart Financial Insights</h3>
-              <span class="chart-subtitle">Automated rules & pattern alerts</span>
-            </div>
-          </div>
-          <div id="insights-container" class="insights-container">
-            <!-- Dynamically generated in app.js -->
-          </div>
+        <div class="card faq-card">
+          <h4><i data-lucide="help-circle"></i> Can I manually add or edit transactions?</h4>
+          <p>Yes! You can manually record one-off income or expenses, edit transaction categories, or flip transaction types between Income and Expense with a single click.</p>
         </div>
 
-      </section>
+        <div class="card faq-card">
+          <h4><i data-lucide="help-circle"></i> Does it work fully offline?</h4>
+          <p>Yes. Once loaded, ApexFinance runs entirely offline in your browser without requiring an internet connection.</p>
+        </div>
+      </div>
+    </section>
 
-      <!-- TRANSACTIONS TABLE SECTION -->
-      <section class="card table-card">
-        <div class="card-header table-header">
-          <div class="header-title-group">
-            <h3><i data-lucide="list"></i> Transactions</h3>
-            <span id="tx-count-badge" class="count-badge">0 items</span>
+    <!-- LANDING FOOTER -->
+    <footer class="landing-footer">
+      <div class="footer-top">
+        <div class="brand">
+          <div class="brand-logo">
+            <i data-lucide="wallet"></i>
           </div>
-
-          <div class="table-actions">
-            <button id="btn-clear-all" class="btn btn-danger-soft btn-sm" title="Clear all stored transactions">
-              <i data-lucide="trash-2"></i> Clear All Data
-            </button>
+          <div class="brand-text">
+            <h2>ApexFinance</h2>
           </div>
         </div>
-
-        <!-- Table Container -->
-        <div class="table-responsive">
-          <table class="data-table" id="transactions-table">
-            <thead>
-              <tr>
-                <th data-sort="date" class="sortable">
-                  Date <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="description" class="sortable">
-                  Description <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="category" class="sortable">
-                  Category <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="type" class="sortable text-center">
-                  Type <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="amount" class="sortable text-right">
-                  Amount <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th class="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody id="tx-table-body">
-              <!-- Dynamically populated in app.js -->
-            </tbody>
-          </table>
-
-          <!-- Empty State Container -->
-          <div id="empty-state" class="empty-state hidden">
-            <i data-lucide="file-up" class="empty-icon"></i>
-            <h4>No Financial Data Loaded</h4>
-            <p>Select your bank statement CSV file to clean, categorize, and display your dashboard output.</p>
-            <div class="empty-actions">
-              <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-empty').click()" title="Upload your bank CSV statement">
-                <i data-lucide="upload-cloud"></i>
-                <span>Upload CSV File</span>
-              </button>
-              <input type="file" id="csv-file-input-empty" accept=".csv" style="display: none;">
-            </div>
-          </div>
-        </div>
-
-        <!-- Table Pagination Footer -->
-        <div class="table-footer">
-          <div class="pagination-info">
-            Showing <span id="pag-start">0</span> - <span id="pag-end">0</span> of <span id="pag-total">0</span>
-            transactions
-          </div>
-          <div class="pagination-controls">
-            <label for="pag-size">Per page:</label>
-            <select id="pag-size" class="form-select form-select-sm">
-              <option value="15">15</option>
-              <option value="30" selected>30</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-            <button id="pag-prev" class="btn btn-icon btn-sm" title="Previous Page">
-              <i data-lucide="chevron-left"></i>
-            </button>
-            <span id="pag-current-page" class="page-indicator">Page 1 of 1</span>
-            <button id="pag-next" class="btn btn-icon btn-sm" title="Next Page">
-              <i data-lucide="chevron-right"></i>
-            </button>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="app-footer">
-      <p>&copy; 2026 <strong>ApexFinance</strong> — 100% Client-Side Private Finance Dashboard. Data remains in your
-        browser's local storage.</p>
+        <p>100% Client-Side &amp; Offline-First Personal Finance &amp; Budget Platform.</p>
+      </div>
+      <div class="footer-bottom text-center">
+        <p>&copy; 2026 ApexFinance. All rights reserved.</p>
+      </div>
     </footer>
+
   </div>
 
-  <!-- MODAL: ADD / EDIT TRANSACTION -->
-  <div id="modal-tx" class="modal-backdrop hidden">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 id="modal-tx-title">Add Transaction</h3>
-        <button id="modal-tx-close" class="btn-close">&times;</button>
-      </div>
-      <form id="form-tx">
-        <input type="hidden" id="tx-edit-id">
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        lucide.createIcons();
+      }
 
-        <div class="form-group">
-          <label for="tx-input-date">Date</label>
-          <input type="date" id="tx-input-date" class="form-input" required>
-        </div>
+      // Theme toggle for landing page
+      const themeBtn = document.getElementById('theme-toggle-landing');
+      if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+          const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+          const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', nextTheme);
+          localStorage.setItem('apex_finance_theme', nextTheme);
+        });
+      }
 
-        <div class="form-group">
-          <label for="tx-input-desc">Description / Payee</label>
-          <input type="text" id="tx-input-desc" class="form-input" placeholder="e.g. Starbucks, Salary" required>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="tx-input-amount">Amount ($)</label>
-            <input type="number" step="0.01" id="tx-input-amount" class="form-input" placeholder="0.00" required>
-          </div>
-
-          <div class="form-group">
-            <label for="tx-input-type">Type</label>
-            <select id="tx-input-type" class="form-select" required>
-              <option value="expense">Expense</option>
-              <option value="income">Income</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="tx-input-category">Category</label>
-          <select id="tx-input-category" class="form-select" required>
-            <!-- Populated dynamically -->
-          </select>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" id="btn-tx-cancel" class="btn btn-ghost">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Transaction</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: MANAGE BUDGETS -->
-  <div id="modal-budgets" class="modal-backdrop hidden">
-    <div class="modal-dialog modal-md">
-      <div class="modal-header">
-        <h3>Category Monthly Budgets</h3>
-        <button id="modal-budgets-close" class="btn-close">&times;</button>
-      </div>
-      <p class="modal-subtitle">Set maximum monthly target limits for each expense category.</p>
-
-      <div id="budget-inputs-container" class="budget-inputs-container">
-        <!-- Dynamically generated in app.js -->
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" id="btn-budgets-cancel" class="btn btn-ghost">Cancel</button>
-        <button type="button" id="btn-budgets-save" class="btn btn-primary">Save Budget Limits</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: CSV COLUMN MAPPING -->
-  <div id="modal-csv-mapping" class="modal-backdrop hidden">
-    <div class="modal-dialog modal-md">
-      <div class="modal-header">
-        <h3><i data-lucide="file-spreadsheet"></i> Map CSV Columns</h3>
-        <button id="modal-csv-close" class="btn-close">&times;</button>
-      </div>
-      <p class="modal-subtitle">Select which columns in your uploaded CSV correspond to Date, Description, and Amount.</p>
-      
-      <!-- Sample Data Preview -->
-      <div class="csv-preview-container">
-        <label class="form-label">CSV Data Preview (First 3 Rows):</label>
-        <div class="table-responsive">
-          <table class="data-table data-table-sm" id="csv-preview-table">
-            <thead id="csv-preview-thead"></thead>
-            <tbody id="csv-preview-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Column Mapping Selectors -->
-      <div class="mapping-grid">
-        <div class="form-group">
-          <label for="map-col-date">Date Column <span class="text-danger">*</span></label>
-          <select id="map-col-date" class="form-select" required></select>
-        </div>
-
-        <div class="form-group">
-          <label for="map-col-desc">Description / Payee Column <span class="text-danger">*</span></label>
-          <select id="map-col-desc" class="form-select" required></select>
-        </div>
-
-        <div class="form-group">
-          <label for="map-col-amount">Amount Column (or Debit) <span class="text-danger">*</span></label>
-          <select id="map-col-amount" class="form-select" required></select>
-        </div>
-
-        <div class="form-group">
-          <label for="map-col-credit">Credit Column (Optional)</label>
-          <select id="map-col-credit" class="form-select">
-            <option value="">None (Single Amount column)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="map-col-category">Category Column (Optional)</label>
-          <select id="map-col-category" class="form-select">
-            <option value="">Auto-categorize with Smart Rules</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="map-col-type">Type / CR-DR Column (Optional)</label>
-          <select id="map-col-type" class="form-select">
-            <option value="">None (Auto-detect from Sign & Keywords)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="map-type-rule">Income vs Expense Rule</label>
-          <select id="map-type-rule" class="form-select">
-            <option value="auto" selected>✨ Smart AI Auto-Detect (Recommended)</option>
-            <option value="negative_expense">Negative Numbers = Expense, Positive = Income</option>
-            <option value="positive_expense">Positive Numbers = Expense (Unless Salary/Income Keyword)</option>
-            <option value="use_type_column">Use Type / CR-DR Column</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="import-mode-select">Import Mode</label>
-          <select id="import-mode-select" class="form-select">
-            <option value="replace" selected>Replace Existing Transactions</option>
-            <option value="append">Append to Current Transactions</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" id="btn-csv-cancel" class="btn btn-ghost">Cancel</button>
-        <button type="button" id="btn-csv-confirm" class="btn btn-primary">Import & Generate Dashboard</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div id="toast-container" class="toast-container"></div>
-
-  <!-- APPLICATION SCRIPT -->
-  <script src="app.js"></script>
+      // Restore saved theme
+      const savedTheme = localStorage.getItem('apex_finance_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    });
+  </script>
 </body>
 
 </html>

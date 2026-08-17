@@ -1377,15 +1377,18 @@ function setupModalTx() {
 
 function setupModalCSVMapping() {
   const modal = document.getElementById('modal-csv-mapping');
-  const closeBtn = document.getElementById('modal-csv-close');
-  const cancelBtn = document.getElementById('btn-csv-cancel');
-  const confirmBtn = document.getElementById('btn-csv-confirm');
+  if (!modal) return;
+
+  const closeBtn = document.getElementById('modal-csv-mapping-close') || document.getElementById('modal-csv-close');
+  const cancelBtn = document.getElementById('btn-csv-mapping-cancel') || document.getElementById('btn-csv-cancel');
+  const confirmBtn = document.getElementById('btn-csv-mapping-confirm') || document.getElementById('btn-csv-confirm');
 
   const closeModal = () => modal.classList.add('hidden');
-  closeBtn.addEventListener('click', closeModal);
-  cancelBtn.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
 
-  confirmBtn.addEventListener('click', () => {
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => {
     if (!pendingCSVData) {
       closeModal();
       return;
