@@ -638,7 +638,9 @@ function renderCharts() {
 }
 
 function renderSpendingTrendChart(gridColor) {
-  const ctx = document.getElementById('chart-spending-trend').getContext('2d');
+  const canvas = document.getElementById('chart-trend');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
 
   // Group expense transactions by month YYYY-MM
   const monthlyData = {};
@@ -656,7 +658,7 @@ function renderSpendingTrendChart(gridColor) {
   if (State.charts.trend) State.charts.trend.destroy();
 
   const gradient = ctx.createLinearGradient(0, 0, 0, 250);
-  gradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
+  gradient.addColorStop(0, 'rgba(99, 102, 241, 0.45)');
   gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
 
   State.charts.trend = new Chart(ctx, {
@@ -672,16 +674,24 @@ function renderSpendingTrendChart(gridColor) {
         fill: true,
         tension: 0.35,
         pointBackgroundColor: '#6366f1',
-        pointRadius: 4,
-        pointHoverRadius: 7
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 8
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: {
+        duration: 1200,
+        easing: 'easeOutQuart'
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
+          padding: 12,
+          cornerRadius: 8,
           callbacks: {
             label: context => ` Spending: ${formatCurrency(context.raw)}`
           }
@@ -699,7 +709,9 @@ function renderSpendingTrendChart(gridColor) {
 }
 
 function renderCategoryDoughnutChart() {
-  const ctx = document.getElementById('chart-category-doughnut').getContext('2d');
+  const canvas = document.getElementById('chart-doughnut');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
 
   const categoryTotals = {};
   State.filteredTransactions
@@ -725,31 +737,41 @@ function renderCategoryDoughnutChart() {
       datasets: [{
         data: dataValues,
         backgroundColor: palette.slice(0, categories.length),
-        borderWidth: 2,
-        borderColor: State.theme === 'dark' ? '#111827' : '#ffffff'
+        borderWidth: 3,
+        borderColor: State.theme === 'dark' ? '#0b0f19' : '#ffffff'
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: {
+        animateRotate: true,
+        animateScale: true,
+        duration: 1200,
+        easing: 'easeOutQuart'
+      },
       plugins: {
         legend: {
           position: 'right',
-          labels: { boxWidth: 12, font: { size: 11 } }
+          labels: { boxWidth: 12, font: { size: 11, weight: '600' } }
         },
         tooltip: {
+          padding: 12,
+          cornerRadius: 8,
           callbacks: {
             label: context => ` ${context.label}: ${formatCurrency(context.raw)}`
           }
         }
       },
-      cutout: '70%'
+      cutout: '68%'
     }
   });
 }
 
 function renderIncomeVsExpenseChart(gridColor) {
-  const ctx = document.getElementById('chart-income-vs-expense').getContext('2d');
+  const canvas = document.getElementById('chart-income-vs-expense');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
 
   const monthsMap = {};
   State.filteredTransactions.forEach(tx => {
@@ -775,21 +797,27 @@ function renderIncomeVsExpenseChart(gridColor) {
           label: 'Income',
           data: incomeData,
           backgroundColor: '#10b981',
-          borderRadius: 6
+          borderRadius: 8
         },
         {
           label: 'Expenses',
           data: expenseData,
           backgroundColor: '#f43f5e',
-          borderRadius: 6
+          borderRadius: 8
         }
       ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: {
+        duration: 1200,
+        easing: 'easeOutQuart'
+      },
       plugins: {
         tooltip: {
+          padding: 12,
+          cornerRadius: 8,
           callbacks: {
             label: context => ` ${context.dataset.label}: ${formatCurrency(context.raw)}`
           }
@@ -807,7 +835,9 @@ function renderIncomeVsExpenseChart(gridColor) {
 }
 
 function renderCategoryStackedChart(gridColor) {
-  const ctx = document.getElementById('chart-category-stacked').getContext('2d');
+  const canvas = document.getElementById('chart-stacked-category');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
 
   const monthsSet = new Set();
   const categoryMonthMap = {};
@@ -834,7 +864,7 @@ function renderCategoryStackedChart(gridColor) {
     label: cat,
     data: sortedMonths.map(m => categoryMonthMap[cat][m] || 0),
     backgroundColor: palette[i % palette.length],
-    borderRadius: 4
+    borderRadius: 6
   }));
 
   if (State.charts.stackedCategory) State.charts.stackedCategory.destroy();
@@ -848,15 +878,25 @@ function renderCategoryStackedChart(gridColor) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: {
-        x: { stacked: true, grid: { color: gridColor } },
-        y: { stacked: true, grid: { color: gridColor }, ticks: { callback: val => '$' + val } }
+      animation: {
+        duration: 1200,
+        easing: 'easeOutQuart'
       },
       plugins: {
         tooltip: {
+          padding: 12,
+          cornerRadius: 8,
           callbacks: {
             label: context => ` ${context.dataset.label}: ${formatCurrency(context.raw)}`
           }
+        }
+      },
+      scales: {
+        x: { stacked: true, grid: { color: gridColor } },
+        y: {
+          stacked: true,
+          grid: { color: gridColor },
+          ticks: { callback: val => '$' + val }
         }
       }
     }
