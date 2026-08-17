@@ -1429,168 +1429,168 @@ function setupModalCSVMapping() {
 
   if (confirmBtn) {
     confirmBtn.addEventListener('click', () => {
-    if (!pendingCSVData) {
+      if (!pendingCSVData) {
+        closeModal();
+        return;
+      }
+
+      const mapping = {
+        dateKey: document.getElementById('map-col-date').value,
+        descKey: document.getElementById('map-col-desc').value,
+        amountKey: document.getElementById('map-col-amount').value,
+        creditKey: document.getElementById('map-col-credit').value,
+        categoryKey: document.getElementById('map-col-category').value,
+        typeKey: document.getElementById('map-col-type').value,
+        typeRule: document.getElementById('map-type-rule').value
+      };
+
+      if (!mapping.dateKey || !mapping.descKey || !mapping.amountKey) {
+        showToast('Please map Date, Description, and Amount columns.', 'error');
+        return;
+      }
+
+      const parsedRows = pendingCSVData.rows.map(row => cleanTransactionRow(row, mapping));
+      const importMode = document.getElementById('import-mode-select').value;
+
+      if (importMode === 'replace') {
+        State.transactions = parsedRows;
+      } else {
+        const { unique } = deduplicateTransactions(parsedRows);
+        State.transactions = [...State.transactions, ...unique];
+      }
+
+      saveTransactions();
+
+      // Automatically set timeframe filter to All Time so user sees uploaded data right away
+      State.filters.datePreset = 'all';
+      State.filters.category = 'all';
+      State.filters.type = 'all';
+      State.filters.search = '';
+      document.getElementById('filter-date-preset').value = 'all';
+      document.getElementById('filter-category').value = 'all';
+      document.getElementById('filter-type').value = 'all';
+      document.getElementById('filter-search').value = '';
+
+      refreshDashboard();
       closeModal();
-      return;
-    }
 
-    const mapping = {
-      dateKey: document.getElementById('map-col-date').value,
-      descKey: document.getElementById('map-col-desc').value,
-      amountKey: document.getElementById('map-col-amount').value,
-      creditKey: document.getElementById('map-col-credit').value,
-      categoryKey: document.getElementById('map-col-category').value,
-      typeKey: document.getElementById('map-col-type').value,
-      typeRule: document.getElementById('map-type-rule').value
-    };
+      showToast(`Successfully imported ${parsedRows.length} transactions from ${pendingCSVData.fileName}!`, 'success');
+      pendingCSVData = null;
+    });
+  }
 
-    if (!mapping.dateKey || !mapping.descKey || !mapping.amountKey) {
-      showToast('Please map Date, Description, and Amount columns.', 'error');
-      return;
-    }
+  function setupModalBudgets() {
+    const modal = document.getElementById('modal-budgets');
+    const openBtn = document.getElementById('btn-edit-budgets');
+    const closeBtn = document.getElementById('modal-budgets-close');
+    const cancelBtn = document.getElementById('btn-budgets-cancel');
+    const saveBtn = document.getElementById('btn-budgets-save');
+    const inputsContainer = document.getElementById('budget-inputs-container');
 
-    const parsedRows = pendingCSVData.rows.map(row => cleanTransactionRow(row, mapping));
-    const importMode = document.getElementById('import-mode-select').value;
+    openBtn.addEventListener('click', () => {
+      inputsContainer.innerHTML = '';
+      const expenseCategories = DEFAULT_CATEGORIES.filter(c => c !== 'Income');
 
-    if (importMode === 'replace') {
-      State.transactions = parsedRows;
-    } else {
-      const { unique } = deduplicateTransactions(parsedRows);
-      State.transactions = [...State.transactions, ...unique];
-    }
-
-    saveTransactions();
-
-    // Automatically set timeframe filter to All Time so user sees uploaded data right away
-    State.filters.datePreset = 'all';
-    State.filters.category = 'all';
-    State.filters.type = 'all';
-    State.filters.search = '';
-    document.getElementById('filter-date-preset').value = 'all';
-    document.getElementById('filter-category').value = 'all';
-    document.getElementById('filter-type').value = 'all';
-    document.getElementById('filter-search').value = '';
-
-    refreshDashboard();
-    closeModal();
-
-    showToast(`Successfully imported ${parsedRows.length} transactions from ${pendingCSVData.fileName}!`, 'success');
-    pendingCSVData = null;
-  });
-}
-
-function setupModalBudgets() {
-  const modal = document.getElementById('modal-budgets');
-  const openBtn = document.getElementById('btn-edit-budgets');
-  const closeBtn = document.getElementById('modal-budgets-close');
-  const cancelBtn = document.getElementById('btn-budgets-cancel');
-  const saveBtn = document.getElementById('btn-budgets-save');
-  const inputsContainer = document.getElementById('budget-inputs-container');
-
-  openBtn.addEventListener('click', () => {
-    inputsContainer.innerHTML = '';
-    const expenseCategories = DEFAULT_CATEGORIES.filter(c => c !== 'Income');
-
-    expenseCategories.forEach(cat => {
-      const currentVal = State.categoryBudgets[cat] || 0;
-      const row = document.createElement('div');
-      row.className = 'budget-input-row';
-      row.innerHTML = `
+      expenseCategories.forEach(cat => {
+        const currentVal = State.categoryBudgets[cat] || 0;
+        const row = document.createElement('div');
+        row.className = 'budget-input-row';
+        row.innerHTML = `
         <label>${cat}</label>
         <input type="number" step="10" class="form-input budget-val-input" data-category="${cat}" value="${currentVal}" style="width: 140px">
       `;
-      inputsContainer.appendChild(row);
+        inputsContainer.appendChild(row);
+      });
+
+      modal.classList.remove('hidden');
     });
 
-    modal.classList.remove('hidden');
-  });
+    const closeModal = () => modal.classList.add('hidden');
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
 
-  const closeModal = () => modal.classList.add('hidden');
-  closeBtn.addEventListener('click', closeModal);
-  cancelBtn.addEventListener('click', closeModal);
+    saveBtn.addEventListener('click', () => {
+      const inputs = inputsContainer.querySelectorAll('.budget-val-input');
+      inputs.forEach(inp => {
+        const cat = inp.dataset.category;
+        const val = parseFloat(inp.value) || 0;
+        State.categoryBudgets[cat] = val;
+      });
 
-  saveBtn.addEventListener('click', () => {
-    const inputs = inputsContainer.querySelectorAll('.budget-val-input');
-    inputs.forEach(inp => {
-      const cat = inp.dataset.category;
-      const val = parseFloat(inp.value) || 0;
-      State.categoryBudgets[cat] = val;
+      saveBudgets();
+      refreshDashboard();
+      closeModal();
+      showToast('Category budgets updated!', 'success');
     });
-
-    saveBudgets();
-    refreshDashboard();
-    closeModal();
-    showToast('Category budgets updated!', 'success');
-  });
-}
-
-/* Export Filtered CSV */
-function exportFilteredCSV() {
-  if (State.filteredTransactions.length === 0) {
-    showToast('No transactions to export', 'error');
-    return;
   }
 
-  const exportData = State.filteredTransactions.map(tx => ({
-    Date: tx.date,
-    Description: tx.description,
-    Category: tx.category,
-    Type: tx.type,
-    Amount: tx.type === 'expense' ? -tx.amount : tx.amount
-  }));
+  /* Export Filtered CSV */
+  function exportFilteredCSV() {
+    if (State.filteredTransactions.length === 0) {
+      showToast('No transactions to export', 'error');
+      return;
+    }
 
-  const csvStr = Papa.unparse(exportData);
-  const blob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute('download', `apex_finance_export_${new Date().toISOString().split('T')[0]}.csv`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+    const exportData = State.filteredTransactions.map(tx => ({
+      Date: tx.date,
+      Description: tx.description,
+      Category: tx.category,
+      Type: tx.type,
+      Amount: tx.type === 'expense' ? -tx.amount : tx.amount
+    }));
 
-  showToast('Exported filtered transactions to CSV!', 'success');
-}
+    const csvStr = Papa.unparse(exportData);
+    const blob = new Blob([csvStr], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `apex_finance_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-/* Helper Utilities */
+    showToast('Exported filtered transactions to CSV!', 'success');
+  }
+
 function setTheme(theme) {
   State.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem(STORAGE_KEYS.THEME, theme);
-  if (State.charts.trend) renderCharts(); // Refresh charts grid color
+  renderCharts();
 }
 
-function showToast(message, type = 'info') {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = `<span>${escapeHTML(message)}</span>`;
-  container.appendChild(toast);
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${escapeHTML(message)}</span>`;
+    container.appendChild(toast);
 
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(30px)';
-    toast.style.transition = 'all 0.3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, 3500);
-}
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(30px)';
+      toast.style.transition = 'all 0.3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, 3500);
+  }
 
-function formatCurrency(val) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  }).format(val || 0);
-}
+  function formatCurrency(val) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(val || 0);
+  }
 
-function formatMonthLabel(mKey) {
-  // mKey format: YYYY-MM
-  const [year, month] = mKey.split('-');
-  const date = new Date(year, parseInt(month, 10) - 1, 1);
-  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-}
+  function formatMonthLabel(mKey) {
+    // mKey format: YYYY-MM
+    const [year, month] = mKey.split('-');
+    const date = new Date(year, parseInt(month, 10) - 1, 1);
+    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  }
 
-function escapeHTML(str) {
-  return (str || '').replace(/[&<>'"]/g,
-    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-  );
+  function escapeHTML(str) {
+    return (str || '').replace(/[&<>'"]/g,
+      tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
+  }
 }

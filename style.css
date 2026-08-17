@@ -91,6 +91,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Theme Toggle Icons */
+[data-theme="dark"] .sun-icon {
+  display: inline-block !important;
+}
+[data-theme="dark"] .moon-icon {
+  display: none !important;
+}
+
+[data-theme="light"] .sun-icon {
+  display: none !important;
+}
+[data-theme="light"] .moon-icon {
+  display: inline-block !important;
+}
+
 /* Layout */
 .app-container {
   max-width: 1440px;
