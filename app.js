@@ -628,7 +628,7 @@ function renderCharts() {
 }
 
 function renderSpendingTrendChart(gridColor) {
-  const canvas = document.getElementById('chart-trend');
+  const canvas = document.getElementById('chart-spending-trend') || document.getElementById('chart-trend');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
@@ -699,7 +699,7 @@ function renderSpendingTrendChart(gridColor) {
 }
 
 function renderCategoryDoughnutChart() {
-  const canvas = document.getElementById('chart-doughnut');
+  const canvas = document.getElementById('chart-category-doughnut') || document.getElementById('chart-doughnut');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
@@ -825,7 +825,7 @@ function renderIncomeVsExpenseChart(gridColor) {
 }
 
 function renderCategoryStackedChart(gridColor) {
-  const canvas = document.getElementById('chart-stacked-category');
+  const canvas = document.getElementById('chart-category-stacked') || document.getElementById('chart-stacked-category');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
