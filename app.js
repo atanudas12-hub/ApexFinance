@@ -1166,8 +1166,8 @@ function setupEventListeners() {
     setTheme(nextTheme);
   });
 
-  // CSV File Inputs (Header & Empty State)
-  ['csv-file-input', 'csv-file-input-empty'].forEach(id => {
+  // CSV File Inputs (Header, Hero & Empty State)
+  ['csv-file-input', 'csv-file-input-hero', 'csv-file-input-empty'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('change', (e) => {

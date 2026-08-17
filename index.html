@@ -42,11 +42,11 @@
 
       <div class="header-actions">
         <!-- Single Main CSV File Upload Button -->
-        <label for="csv-file-input" class="btn btn-primary upload-label" title="Upload your bank CSV statement">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('csv-file-input').click()" title="Upload your bank CSV statement">
           <i data-lucide="upload-cloud"></i>
           <span>Upload CSV File</span>
-          <input type="file" id="csv-file-input" accept=".csv" class="hidden-input">
-        </label>
+        </button>
+        <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
 
         <!-- Add Transaction -->
         <button id="btn-add-tx" class="btn btn-outline btn-sm" title="Manually record a transaction">
@@ -87,11 +87,11 @@
                 Upload your bank CSV statement to automatically clean, categorize, and analyze your income, expenses, monthly budgets, and spending habits in seconds.
               </p>
               <div class="hero-actions">
-                <label for="csv-file-input-hero" class="btn btn-primary btn-lg upload-label" title="Upload your bank CSV statement">
+                <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-hero').click()" title="Upload your bank CSV statement">
                   <i data-lucide="upload-cloud"></i>
                   <span>Upload CSV Statement</span>
-                  <input type="file" id="csv-file-input-hero" accept=".csv" class="hidden-input">
-                </label>
+                </button>
+                <input type="file" id="csv-file-input-hero" accept=".csv" style="display: none;">
                 <button class="btn btn-outline btn-lg" onclick="document.getElementById('btn-add-tx').click()" title="Record a manual transaction">
                   <i data-lucide="plus-circle"></i>
                   <span>Manual Entry</span>
@@ -406,11 +406,11 @@
             <h4>No Financial Data Loaded</h4>
             <p>Select your bank statement CSV file to clean, categorize, and display your dashboard output.</p>
             <div class="empty-actions">
-              <label for="csv-file-input-empty" class="btn btn-primary btn-lg upload-label">
+              <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-empty').click()" title="Upload your bank CSV statement">
                 <i data-lucide="upload-cloud"></i>
                 <span>Upload CSV File</span>
-                <input type="file" id="csv-file-input-empty" accept=".csv" class="hidden-input">
-              </label>
+              </button>
+              <input type="file" id="csv-file-input-empty" accept=".csv" style="display: none;">
             </div>
           </div>
         </div>
