@@ -96,16 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupDragAndDrop();
   disableInspectElement();
   refreshDashboard();
-
-  // Hide preloader smoothly after initialization
-  setTimeout(() => {
-    const loader = document.getElementById('app-preloader');
-    if (loader) {
-      loader.style.opacity = '0';
-      loader.style.transition = 'opacity 0.4s ease';
-      setTimeout(() => loader.remove(), 400);
-    }
-  }, 350);
 });
 
 function disableInspectElement() {
