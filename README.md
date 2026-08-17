@@ -88,7 +88,6 @@ ApexFinance/
 ├── index.html              # Main application single-page structure & modals
 ├── style.css               # Design system, CSS variables, dark/light themes & glassmorphism
 ├── app.js                  # Core engine, CSV parser, state manager & Chart.js controllers
-├── sample-data.csv         # Realistic sample bank dataset for instant testing
 ├── hero_illustration.jpg   # 3D fintech hero illustration asset
 └── README.md               # Documentation & usage guide
 ```
