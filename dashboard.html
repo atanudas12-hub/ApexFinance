@@ -36,7 +36,8 @@
           <i data-lucide="wallet"></i>
         </div>
         <div class="brand-text">
-          <h1>ApexFinance</h1>
+          <h1><a href="index.html" class="brand-link"
+          style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">ApexFinance</a></h1>
         </div>
       </div>
 
@@ -139,6 +140,59 @@
             </button>
           </div>
 
+        </div>
+      </section>
+
+      <!-- SUMMARY METRICS CARDS (4-COLUMN GRID) -->
+      <section class="summary-grid">
+        <!-- Metric Card: Total Income -->
+        <div class="card metric-card metric-income">
+          <div class="metric-header">
+            <span class="metric-title">Total Income</span>
+            <div class="metric-icon">
+              <i data-lucide="trending-up"></i>
+            </div>
+          </div>
+          <div class="metric-value" id="val-income">$0.00</div>
+          <div class="metric-subtext" id="sub-income-tx">0 transactions</div>
+        </div>
+
+        <!-- Metric Card: Total Expenses -->
+        <div class="card metric-card metric-expense">
+          <div class="metric-header">
+            <span class="metric-title">Total Expenses</span>
+            <div class="metric-icon">
+              <i data-lucide="trending-down"></i>
+            </div>
+          </div>
+          <div class="metric-value" id="val-expenses">$0.00</div>
+          <div class="metric-subtext" id="sub-expense-tx">0 transactions</div>
+        </div>
+
+        <!-- Metric Card: Net Savings -->
+        <div class="card metric-card metric-savings">
+          <div class="metric-header">
+            <span class="metric-title">Net Savings</span>
+            <div class="metric-icon">
+              <i data-lucide="piggy-bank"></i>
+            </div>
+          </div>
+          <div class="metric-value" id="val-savings">$0.00</div>
+          <div class="metric-subtext">Income minus Expenses</div>
+        </div>
+
+        <!-- Metric Card: Savings Rate -->
+        <div class="card metric-card metric-rate">
+          <div class="metric-header">
+            <span class="metric-title">Savings Rate</span>
+            <div class="metric-icon">
+              <i data-lucide="percent"></i>
+            </div>
+          </div>
+          <div class="metric-value" id="val-rate">0.0%</div>
+          <div class="mini-progress-bar">
+            <div class="mini-progress-fill" id="fill-savings-rate" style="width: 0%"></div>
+          </div>
         </div>
       </section>
 

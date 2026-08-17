@@ -1495,53 +1495,54 @@ function setupModalCSVMapping() {
       pendingCSVData = null;
     });
   }
+}
 
-  function setupModalBudgets() {
-    const modal = document.getElementById('modal-budgets');
-    const openBtn = document.getElementById('btn-edit-budgets');
-    const closeBtn = document.getElementById('modal-budgets-close');
-    const cancelBtn = document.getElementById('btn-budgets-cancel');
-    const saveBtn = document.getElementById('btn-budgets-save');
-    const inputsContainer = document.getElementById('budget-inputs-container');
+function setupModalBudgets() {
+  const modal = document.getElementById('modal-budgets');
+  const openBtn = document.getElementById('btn-edit-budgets');
+  const closeBtn = document.getElementById('modal-budgets-close');
+  const cancelBtn = document.getElementById('btn-budgets-cancel');
+  const saveBtn = document.getElementById('btn-budgets-save');
+  const inputsContainer = document.getElementById('budget-inputs-container');
 
-    openBtn.addEventListener('click', () => {
-      inputsContainer.innerHTML = '';
-      const expenseCategories = DEFAULT_CATEGORIES.filter(c => c !== 'Income');
+  openBtn.addEventListener('click', () => {
+    inputsContainer.innerHTML = '';
+    const expenseCategories = DEFAULT_CATEGORIES.filter(c => c !== 'Income');
 
-      expenseCategories.forEach(cat => {
-        const currentVal = State.categoryBudgets[cat] || 0;
-        const row = document.createElement('div');
-        row.className = 'budget-input-row';
-        row.innerHTML = `
+    expenseCategories.forEach(cat => {
+      const currentVal = State.categoryBudgets[cat] || 0;
+      const row = document.createElement('div');
+      row.className = 'budget-input-row';
+      row.innerHTML = `
         <label>${cat}</label>
         <input type="number" step="10" class="form-input budget-val-input" data-category="${cat}" value="${currentVal}" style="width: 140px">
       `;
-        inputsContainer.appendChild(row);
-      });
-
-      modal.classList.remove('hidden');
+      inputsContainer.appendChild(row);
     });
 
-    const closeModal = () => modal.classList.add('hidden');
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
+    modal.classList.remove('hidden');
+  });
 
-    saveBtn.addEventListener('click', () => {
-      const inputs = inputsContainer.querySelectorAll('.budget-val-input');
-      inputs.forEach(inp => {
-        const cat = inp.dataset.category;
-        const val = parseFloat(inp.value) || 0;
-        State.categoryBudgets[cat] = val;
-      });
+  const closeModal = () => modal.classList.add('hidden');
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
 
-      saveBudgets();
-      refreshDashboard();
-      closeModal();
-      showToast('Category budgets updated!', 'success');
+  saveBtn.addEventListener('click', () => {
+    const inputs = inputsContainer.querySelectorAll('.budget-val-input');
+    inputs.forEach(inp => {
+      const cat = inp.dataset.category;
+      const val = parseFloat(inp.value) || 0;
+      State.categoryBudgets[cat] = val;
     });
-  }
 
-  /* Export Filtered CSV */
+    saveBudgets();
+    refreshDashboard();
+    closeModal();
+    showToast('Category budgets updated!', 'success');
+  });
+}
+
+/* Export Filtered CSV */
 function exportFilteredCSV() {
   if (State.filteredTransactions.length === 0) {
     showToast('No transactions to export', 'error');
