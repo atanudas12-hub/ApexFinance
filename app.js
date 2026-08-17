@@ -1199,93 +1199,111 @@ function updateCategoryDropdownFilter() {
    13. EVENT LISTENERS & INTERACTIVITY
    ========================================================================== */
 
+function addEvt(id, event, callback) {
+  const el = typeof id === 'string' ? document.getElementById(id) : id;
+  if (el) {
+    el.addEventListener(event, callback);
+  }
+}
+
 function setupEventListeners() {
-  // Theme Toggle
-  document.getElementById('theme-toggle').addEventListener('click', () => {
+  // Theme Toggle (Dashboard & Landing)
+  addEvt('theme-toggle', 'click', () => {
     const nextTheme = State.theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+  });
+
+  addEvt('theme-toggle-landing', 'click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
   });
 
   // CSV File Inputs (Header, Hero & Empty State)
   ['csv-file-input', 'csv-file-input-hero', 'csv-file-input-empty'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-          handleCSVParse(e.target.files[0]);
-          e.target.value = '';
-        }
-      });
-    }
+    addEvt(id, 'change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleCSVParse(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
   });
 
   // Filter Event Listeners
   const searchInput = document.getElementById('filter-search');
   const clearSearchBtn = document.getElementById('btn-clear-search');
 
-  searchInput.addEventListener('input', (e) => {
-    State.filters.search = e.target.value.trim();
-    clearSearchBtn.classList.toggle('hidden', !State.filters.search);
-    State.pagination.currentPage = 1;
-    refreshDashboard();
-  });
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      State.filters.search = e.target.value.trim();
+      if (clearSearchBtn) clearSearchBtn.classList.toggle('hidden', !State.filters.search);
+      State.pagination.currentPage = 1;
+      refreshDashboard();
+    });
+  }
 
-  clearSearchBtn.addEventListener('click', () => {
-    searchInput.value = '';
-    State.filters.search = '';
-    clearSearchBtn.classList.add('hidden');
-    State.pagination.currentPage = 1;
-    refreshDashboard();
-  });
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      State.filters.search = '';
+      clearSearchBtn.classList.add('hidden');
+      State.pagination.currentPage = 1;
+      refreshDashboard();
+    });
+  }
 
-  document.getElementById('filter-date-preset').addEventListener('change', (e) => {
+  addEvt('filter-date-preset', 'change', (e) => {
     State.filters.datePreset = e.target.value;
     const customGroup = document.getElementById('custom-date-group');
-    customGroup.classList.toggle('hidden', e.target.value !== 'custom');
+    if (customGroup) customGroup.classList.toggle('hidden', e.target.value !== 'custom');
     State.pagination.currentPage = 1;
     refreshDashboard();
   });
 
-  document.getElementById('filter-start-date').addEventListener('change', (e) => {
+  addEvt('filter-start-date', 'change', (e) => {
     State.filters.startDate = e.target.value;
     refreshDashboard();
   });
 
-  document.getElementById('filter-end-date').addEventListener('change', (e) => {
+  addEvt('filter-end-date', 'change', (e) => {
     State.filters.endDate = e.target.value;
     refreshDashboard();
   });
 
-  document.getElementById('filter-category').addEventListener('change', (e) => {
+  addEvt('filter-category', 'change', (e) => {
     State.filters.category = e.target.value;
     State.pagination.currentPage = 1;
     refreshDashboard();
   });
 
-  document.getElementById('filter-type').addEventListener('change', (e) => {
+  addEvt('filter-type', 'change', (e) => {
     State.filters.type = e.target.value;
     State.pagination.currentPage = 1;
     refreshDashboard();
   });
 
-  document.getElementById('btn-reset-filters').addEventListener('click', () => {
+  addEvt('btn-reset-filters', 'click', () => {
     State.filters = { search: '', datePreset: 'all', startDate: '', endDate: '', category: 'all', type: 'all' };
-    document.getElementById('filter-search').value = '';
-    document.getElementById('filter-date-preset').value = 'all';
-    document.getElementById('filter-category').value = 'all';
-    document.getElementById('filter-type').value = 'all';
-    document.getElementById('custom-date-group').classList.add('hidden');
-    clearSearchBtn.classList.add('hidden');
+    if (searchInput) searchInput.value = '';
+    const datePresetEl = document.getElementById('filter-date-preset');
+    if (datePresetEl) datePresetEl.value = 'all';
+    const catEl = document.getElementById('filter-category');
+    if (catEl) catEl.value = 'all';
+    const typeEl = document.getElementById('filter-type');
+    if (typeEl) typeEl.value = 'all';
+    const customGrp = document.getElementById('custom-date-group');
+    if (customGrp) customGrp.classList.add('hidden');
+    if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
     State.pagination.currentPage = 1;
     refreshDashboard();
     showToast('Filters reset', 'info');
   });
 
   // Export CSV
-  document.getElementById('btn-export-csv').addEventListener('click', exportFilteredCSV);
+  addEvt('btn-export-csv', 'click', exportFilteredCSV);
 
   // Clear All Data
-  document.getElementById('btn-clear-all').addEventListener('click', () => {
+  addEvt('btn-clear-all', 'click', () => {
     if (confirm('Are you sure you want to delete all transactions?')) {
       State.transactions = [];
       saveTransactions();
@@ -1304,7 +1322,6 @@ function setupEventListeners() {
         State.sort.column = col;
         State.sort.direction = 'desc';
       }
-      // Update UI classes
       document.querySelectorAll('.data-table th').forEach(t => t.classList.remove('sorted-asc', 'sorted-desc'));
       th.classList.add(State.sort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
       refreshDashboard();
@@ -1312,14 +1329,14 @@ function setupEventListeners() {
   });
 
   // Pagination controls
-  document.getElementById('pag-prev').addEventListener('click', () => {
+  addEvt('pag-prev', 'click', () => {
     if (State.pagination.currentPage > 1) {
       State.pagination.currentPage--;
       renderTable();
     }
   });
 
-  document.getElementById('pag-next').addEventListener('click', () => {
+  addEvt('pag-next', 'click', () => {
     const maxPage = Math.ceil(State.filteredTransactions.length / State.pagination.pageSize);
     if (State.pagination.currentPage < maxPage) {
       State.pagination.currentPage++;
@@ -1327,7 +1344,7 @@ function setupEventListeners() {
     }
   });
 
-  document.getElementById('pag-size').addEventListener('change', (e) => {
+  addEvt('pag-size', 'change', (e) => {
     State.pagination.pageSize = parseInt(e.target.value, 10);
     State.pagination.currentPage = 1;
     renderTable();
@@ -1552,12 +1569,12 @@ function setupModalCSVMapping() {
     showToast('Exported filtered transactions to CSV!', 'success');
   }
 
-function setTheme(theme) {
-  State.theme = theme;
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem(STORAGE_KEYS.THEME, theme);
-  renderCharts();
-}
+  function setTheme(theme) {
+    State.theme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(STORAGE_KEYS.THEME, theme);
+    renderCharts();
+  }
 
   function showToast(message, type = 'info') {
     const container = document.getElementById('toast-container');

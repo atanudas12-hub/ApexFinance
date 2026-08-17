@@ -42,11 +42,11 @@
 
       <div class="header-actions">
         <!-- Single Main CSV File Upload Button -->
-        <label for="csv-file-input" class="btn btn-primary upload-label" title="Upload your bank CSV statement">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('csv-file-input').click()" title="Upload your bank CSV statement">
           <i data-lucide="upload-cloud"></i>
           <span>Upload CSV File</span>
-          <input type="file" id="csv-file-input" accept=".csv" class="hidden-input">
-        </label>
+        </button>
+        <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
 
         <!-- Add Transaction -->
         <button id="btn-add-tx" class="btn btn-outline btn-sm" title="Manually record a transaction">
@@ -72,144 +72,6 @@
 
     <!-- MAIN DASHBOARD CONTENT -->
     <main class="dashboard-main">
-
-      <!-- EXECUTIVE HOME / OVERVIEW HERO SECTION -->
-      <section class="home-hero-section" id="section-home-hero">
-        <div class="hero-glass-card">
-          <div class="hero-top-grid">
-            <div class="hero-content">
-              <div class="hero-badge">
-                <i data-lucide="shield-check"></i>
-                <span>100% Private &amp; Offline Financial Intelligence</span>
-              </div>
-              <h2 class="hero-title">Master Your Personal Finances with AI Precision</h2>
-              <p class="hero-description">
-                Upload your bank CSV statement to automatically clean, categorize, and analyze your income, expenses,
-                monthly budgets, and spending habits in seconds.
-              </p>
-              <div class="hero-actions">
-                <label for="csv-file-input-hero" class="btn btn-primary btn-lg upload-label"
-                  title="Upload your bank CSV statement">
-                  <i data-lucide="upload-cloud"></i>
-                  <span>Upload CSV Statement</span>
-                  <input type="file" id="csv-file-input-hero" accept=".csv" class="hidden-input">
-                </label>
-                <button class="btn btn-outline btn-lg" onclick="document.getElementById('btn-add-tx').click()"
-                  title="Record a manual transaction">
-                  <i data-lucide="plus-circle"></i>
-                  <span>Manual Entry</span>
-                </button>
-                <button class="btn btn-secondary btn-lg" onclick="document.getElementById('btn-edit-budgets').click()"
-                  title="Configure monthly category budgets">
-                  <i data-lucide="target"></i>
-                  <span>Manage Budgets</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="hero-right">
-              <div class="hero-image-container">
-                <img src="hero_illustration.jpg" alt="ApexFinance 3D Visual Intelligence" class="hero-illustration-img">
-                <div class="hero-image-backdrop"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero-features-grid">
-            <div class="hero-feature-card">
-              <div class="feature-icon feature-icon-purple">
-                <i data-lucide="zap"></i>
-              </div>
-              <div class="feature-info">
-                <h4>Smart Auto-Categorization</h4>
-                <p>Rule-based engine automatically tags salary, groceries, transport, dining out &amp; more.</p>
-              </div>
-            </div>
-
-            <div class="hero-feature-card">
-              <div class="feature-icon feature-icon-green">
-                <i data-lucide="pie-chart"></i>
-              </div>
-              <div class="feature-info">
-                <h4>Dynamic Chart Analytics</h4>
-                <p>Interactive monthly trends, category spend breakdowns, and cash flow charts.</p>
-              </div>
-            </div>
-
-            <div class="hero-feature-card">
-              <div class="feature-icon feature-icon-blue">
-                <i data-lucide="lock"></i>
-              </div>
-              <div class="feature-info">
-                <h4>Zero Server Tracking</h4>
-                <p>Your sensitive bank data stays strictly inside browser local storage. Completely offline.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TOP METRIC SUMMARY CARDS -->
-      <section class="summary-grid">
-        <!-- Income Card -->
-        <div class="card metric-card metric-income">
-          <div class="metric-header">
-            <span class="metric-title">Total Income</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-up"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-income">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-income-tx">0 transactions</span>
-          </div>
-        </div>
-
-        <!-- Expenses Card -->
-        <div class="card metric-card metric-expense">
-          <div class="metric-header">
-            <span class="metric-title">Total Expenses</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-down"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-expenses">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-expense-tx">0 transactions</span>
-          </div>
-        </div>
-
-        <!-- Net Savings Card -->
-        <div class="card metric-card metric-savings">
-          <div class="metric-header">
-            <span class="metric-title">Net Savings</span>
-            <div class="metric-icon">
-              <i data-lucide="piggy-bank"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-savings">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-savings">Income minus Expenses</span>
-          </div>
-        </div>
-
-        <!-- Savings Rate Card -->
-        <div class="card metric-card metric-rate">
-          <div class="metric-header">
-            <span class="metric-title">Savings Rate</span>
-            <div class="metric-icon">
-              <i data-lucide="percent"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-rate">0.0%</div>
-          <div class="metric-subtext">
-            <div class="mini-progress-bar">
-              <div class="mini-progress-fill" id="fill-savings-rate" style="width: 0%"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- FILTER TOOLBAR -->
       <section class="card filter-card">
         <div class="filter-toolbar">
@@ -410,11 +272,11 @@
             <h4>No Financial Data Loaded</h4>
             <p>Select your bank statement CSV file to clean, categorize, and display your dashboard output.</p>
             <div class="empty-actions">
-              <label for="csv-file-input-empty" class="btn btn-primary btn-lg upload-label">
+              <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-empty').click()" title="Upload your bank CSV statement">
                 <i data-lucide="upload-cloud"></i>
                 <span>Upload CSV File</span>
-                <input type="file" id="csv-file-input-empty" accept=".csv" class="hidden-input">
-              </label>
+              </button>
+              <input type="file" id="csv-file-input-empty" accept=".csv" style="display: none;">
             </div>
           </div>
         </div>
