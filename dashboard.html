@@ -27,36 +27,42 @@
 </head>
 
 <body>
+  <!-- Ambient Background Glow -->
+  <div class="bg-ambient">
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+    <div class="glow-orb glow-3"></div>
+  </div>
+
   <div class="app-container">
 
     <!-- TOP NAVIGATION HEADER -->
     <header class="app-header">
       <div class="brand">
-        <div class="brand-logo">
-          <i data-lucide="wallet"></i>
-        </div>
-        <div class="brand-text">
-          <h1><a href="index.html" class="brand-link"
-          style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">ApexFinance</a></h1>
-        </div>
+        <a href="index.html" class="brand-link" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; color:inherit;">
+          <div class="brand-logo">
+            <i data-lucide="wallet"></i>
+          </div>
+          <div class="brand-text">
+            <h1>ApexFinance</h1>
+            <span class="brand-subtitle">Personal Finance Intelligence</span>
+          </div>
+        </a>
       </div>
 
       <div class="header-actions">
-        <!-- Single Main CSV File Upload Button -->
         <button type="button" class="btn btn-primary" onclick="document.getElementById('csv-file-input').click()" title="Upload your bank CSV statement">
           <i data-lucide="upload-cloud"></i>
-          <span>Upload CSV File</span>
+          <span>Upload CSV</span>
         </button>
         <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
 
-        <!-- Add Transaction -->
-        <button id="btn-add-tx" class="btn btn-outline btn-sm" title="Manually record a transaction">
+        <button id="btn-add-tx" class="btn btn-outline" title="Manually record a transaction">
           <i data-lucide="plus"></i>
           <span>Add Transaction</span>
         </button>
 
-        <!-- Theme Toggle -->
-        <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle Dark/Light Mode" title="Toggle theme">
+        <button id="theme-toggle" class="btn btn-icon btn-icon-lg" aria-label="Toggle Dark/Light Mode" title="Toggle theme">
           <i data-lucide="sun" class="sun-icon"></i>
           <i data-lucide="moon" class="moon-icon"></i>
         </button>
@@ -66,22 +72,140 @@
     <!-- DRAG AND DROP OVERLAY / TARGET -->
     <div id="drop-zone" class="drop-zone">
       <div class="drop-zone-content">
-        <i data-lucide="file-up" class="drop-icon"></i>
-        <p>Drop your bank <strong>CSV file</strong> anywhere to instant parse</p>
+        <div class="drop-icon-wrapper">
+          <i data-lucide="file-up" class="drop-icon"></i>
+        </div>
+        <h3 class="drop-title">Drop CSV File to Import</h3>
+        <p class="drop-subtitle">Your bank statement will be parsed locally. 100% private.</p>
       </div>
     </div>
 
     <!-- MAIN DASHBOARD CONTENT -->
     <main class="dashboard-main">
+
+      <!-- DASHBOARD TITLE BAR -->
+      <section class="dashboard-title-section">
+        <div class="title-block">
+          <div class="section-status-tag">
+            <span class="status-dot"></span>
+            <span>Live Dashboard</span>
+          </div>
+          <h2 class="dashboard-page-title">Financial Overview</h2>
+          <p class="dashboard-page-subtitle">Track income, expenses, budgets, and spending patterns in real time.</p>
+        </div>
+      </section>
+
+      <!-- SUMMARY METRICS CARDS (4-COLUMN GRID) -->
+      <section class="summary-grid">
+        <!-- Metric Card: Total Income -->
+        <div class="card metric-card metric-income">
+          <div class="metric-glow metric-glow-income"></div>
+          <div class="metric-header">
+            <span class="metric-title">
+              <i data-lucide="arrow-up-right" class="metric-title-icon income-accent"></i>
+              Total Income
+            </span>
+            <div class="metric-icon-wrap icon-income">
+              <i data-lucide="trending-up" class="metric-icon-svg"></i>
+            </div>
+          </div>
+          <div class="metric-bottom">
+            <div class="metric-value-block">
+              <div class="metric-value" id="val-income">$0.00</div>
+              <div class="metric-subtext" id="sub-income-tx">0 transactions</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Card: Total Expenses -->
+        <div class="card metric-card metric-expense">
+          <div class="metric-glow metric-glow-expense"></div>
+          <div class="metric-header">
+            <span class="metric-title">
+              <i data-lucide="arrow-down-right" class="metric-title-icon expense-accent"></i>
+              Total Expenses
+            </span>
+            <div class="metric-icon-wrap icon-expense">
+              <i data-lucide="trending-down" class="metric-icon-svg"></i>
+            </div>
+          </div>
+          <div class="metric-bottom">
+            <div class="metric-value-block">
+              <div class="metric-value" id="val-expenses">$0.00</div>
+              <div class="metric-subtext" id="sub-expense-tx">0 transactions</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Card: Net Savings -->
+        <div class="card metric-card metric-savings">
+          <div class="metric-glow metric-glow-savings"></div>
+          <div class="metric-header">
+            <span class="metric-title">
+              <i data-lucide="piggy-bank" class="metric-title-icon savings-accent"></i>
+              Net Savings
+            </span>
+            <div class="metric-icon-wrap icon-savings">
+              <i data-lucide="wallet" class="metric-icon-svg"></i>
+            </div>
+          </div>
+          <div class="metric-bottom">
+            <div class="metric-value-block">
+              <div class="metric-value" id="val-savings">$0.00</div>
+              <div class="metric-subtext">Income − Expenses</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Card: Savings Rate -->
+        <div class="card metric-card metric-rate">
+          <div class="metric-glow metric-glow-rate"></div>
+          <div class="metric-header">
+            <span class="metric-title">
+              <i data-lucide="target" class="metric-title-icon rate-accent"></i>
+              Savings Rate
+            </span>
+            <div class="metric-icon-wrap icon-rate">
+              <i data-lucide="percent" class="metric-icon-svg"></i>
+            </div>
+          </div>
+          <div class="metric-bottom">
+            <div class="metric-value-block">
+              <div class="metric-value" id="val-rate">0.0%</div>
+              <div class="progress-track-wrapper">
+                <div class="mini-progress-bar">
+                  <div class="mini-progress-fill" id="fill-savings-rate" style="width: 0%"></div>
+                </div>
+                <span class="progress-hint">of income saved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- FILTER TOOLBAR -->
       <section class="card filter-card">
+        <div class="filter-card-header">
+          <div class="filter-title-block">
+            <div class="filter-title-icon-wrap">
+              <i data-lucide="sliders-horizontal" class="filter-title-icon"></i>
+            </div>
+            <div>
+              <h4 class="filter-title">Filters & Controls</h4>
+              <p class="filter-subtitle">Narrow your view by date, category, type, or search.</p>
+            </div>
+          </div>
+        </div>
         <div class="filter-toolbar">
 
           <!-- Search box -->
           <div class="filter-group filter-search">
-            <i data-lucide="search" class="search-icon"></i>
-            <input type="text" id="filter-search" placeholder="Search description or merchant..." autocomplete="off">
-            <button id="btn-clear-search" class="btn-clear hidden">&times;</button>
+            <label>Search Transactions</label>
+            <div class="search-input-wrapper">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" id="filter-search" placeholder="Search description, merchant, category..." autocomplete="off">
+              <button id="btn-clear-search" class="btn-clear hidden">&times;</button>
+            </div>
           </div>
 
           <!-- Date Quick Presets -->
@@ -114,7 +238,6 @@
             <label for="filter-category">Category</label>
             <select id="filter-category" class="form-select">
               <option value="all">All Categories</option>
-              <!-- Populated dynamically in app.js -->
             </select>
           </div>
 
@@ -130,101 +253,72 @@
 
           <!-- Action buttons -->
           <div class="filter-group filter-actions">
-            <button id="btn-reset-filters" class="btn btn-ghost btn-sm" title="Reset all filters">
+            <button id="btn-reset-filters" class="btn btn-ghost" title="Reset all filters">
               <i data-lucide="rotate-ccw"></i>
               <span>Reset</span>
             </button>
-            <button id="btn-export-csv" class="btn btn-outline btn-sm" title="Export currently filtered list to CSV">
+            <button id="btn-export-csv" class="btn btn-outline" title="Export currently filtered list to CSV">
               <i data-lucide="download"></i>
-              <span>Export CSV</span>
+              <span>Export</span>
             </button>
           </div>
 
         </div>
       </section>
 
-      <!-- SUMMARY METRICS CARDS (4-COLUMN GRID) -->
-      <section class="summary-grid">
-        <!-- Metric Card: Total Income -->
-        <div class="card metric-card metric-income">
-          <div class="metric-header">
-            <span class="metric-title">Total Income</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-up"></i>
+      <!-- CHARTS MAIN ROW (LARGE + SIDE) -->
+      <section class="charts-main-grid">
+        <!-- Chart 1: Monthly Spending Trend (Line) - LARGE -->
+        <div class="card chart-card chart-card-large">
+          <div class="card-header card-header-enhanced">
+            <div class="header-title-group">
+              <div class="header-icon-accent header-icon-blue">
+                <i data-lucide="line-chart"></i>
+              </div>
+              <div>
+                <h3>Monthly Cash Flow Trend</h3>
+                <span class="chart-subtitle">Expense movement over time</span>
+              </div>
             </div>
           </div>
-          <div class="metric-value" id="val-income">$0.00</div>
-          <div class="metric-subtext" id="sub-income-tx">0 transactions</div>
-        </div>
-
-        <!-- Metric Card: Total Expenses -->
-        <div class="card metric-card metric-expense">
-          <div class="metric-header">
-            <span class="metric-title">Total Expenses</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-down"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-expenses">$0.00</div>
-          <div class="metric-subtext" id="sub-expense-tx">0 transactions</div>
-        </div>
-
-        <!-- Metric Card: Net Savings -->
-        <div class="card metric-card metric-savings">
-          <div class="metric-header">
-            <span class="metric-title">Net Savings</span>
-            <div class="metric-icon">
-              <i data-lucide="piggy-bank"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-savings">$0.00</div>
-          <div class="metric-subtext">Income minus Expenses</div>
-        </div>
-
-        <!-- Metric Card: Savings Rate -->
-        <div class="card metric-card metric-rate">
-          <div class="metric-header">
-            <span class="metric-title">Savings Rate</span>
-            <div class="metric-icon">
-              <i data-lucide="percent"></i>
-            </div>
-          </div>
-          <div class="metric-value" id="val-rate">0.0%</div>
-          <div class="mini-progress-bar">
-            <div class="mini-progress-fill" id="fill-savings-rate" style="width: 0%"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CHARTS SECTION (2x2 GRID) -->
-      <section class="charts-grid">
-        <!-- Chart 1: Monthly Spending Trend (Line) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="line-chart"></i> Monthly Spending Trend</h3>
-            <span class="chart-subtitle">Expense totals by month</span>
-          </div>
-          <div class="chart-container">
+          <div class="chart-container chart-container-lg">
             <canvas id="chart-spending-trend"></canvas>
           </div>
         </div>
 
         <!-- Chart 2: Category Breakdown (Doughnut) -->
         <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="pie-chart"></i> Spending by Category</h3>
-            <span class="chart-subtitle">Category distribution</span>
+          <div class="card-header card-header-enhanced">
+            <div class="header-title-group">
+              <div class="header-icon-accent header-icon-purple">
+                <i data-lucide="pie-chart"></i>
+              </div>
+              <div>
+                <h3>Spending by Category</h3>
+                <span class="chart-subtitle">Category distribution</span>
+              </div>
+            </div>
           </div>
           <div class="chart-container">
             <canvas id="chart-category-doughnut"></canvas>
           </div>
         </div>
+      </section>
 
+      <!-- CHARTS ROW 2 (EQUAL 2 COLUMNS) -->
+      <section class="charts-grid">
         <!-- Chart 3: Income vs Expense (Grouped Bar) -->
         <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="bar-chart-2"></i> Income vs Expenses</h3>
-            <span class="chart-subtitle">Monthly cash flow comparison</span>
+          <div class="card-header card-header-enhanced">
+            <div class="header-title-group">
+              <div class="header-icon-accent header-icon-emerald">
+                <i data-lucide="bar-chart-2"></i>
+              </div>
+              <div>
+                <h3>Income vs Expenses</h3>
+                <span class="chart-subtitle">Monthly cash flow comparison</span>
+              </div>
+            </div>
           </div>
           <div class="chart-container">
             <canvas id="chart-income-vs-expense"></canvas>
@@ -233,9 +327,16 @@
 
         <!-- Chart 4: Category Spending Over Time (Stacked Bar) -->
         <div class="card chart-card">
-          <div class="card-header">
-            <h3><i data-lucide="layers"></i> Category Spend Over Time</h3>
-            <span class="chart-subtitle">Monthly breakdown per category</span>
+          <div class="card-header card-header-enhanced">
+            <div class="header-title-group">
+              <div class="header-icon-accent header-icon-amber">
+                <i data-lucide="layers"></i>
+              </div>
+              <div>
+                <h3>Category Spend Over Time</h3>
+                <span class="chart-subtitle">Monthly breakdown per category</span>
+              </div>
+            </div>
           </div>
           <div class="chart-container">
             <canvas id="chart-category-stacked"></canvas>
@@ -248,30 +349,38 @@
 
         <!-- Category Budgets Card -->
         <div class="card widget-card">
-          <div class="card-header">
+          <div class="card-header card-header-enhanced">
             <div class="header-title-group">
-              <h3><i data-lucide="target"></i> Monthly Category Budgets</h3>
-              <span class="chart-subtitle">Track spending against limits</span>
+              <div class="header-icon-accent header-icon-rose">
+                <i data-lucide="target"></i>
+              </div>
+              <div>
+                <h3>Monthly Category Budgets</h3>
+                <span class="chart-subtitle">Track spending against limits</span>
+              </div>
             </div>
-            <button id="btn-edit-budgets" class="btn btn-ghost btn-sm">
-              <i data-lucide="settings"></i> Manage Budgets
+            <button id="btn-edit-budgets" class="btn btn-outline btn-sm">
+              <i data-lucide="settings"></i> Manage
             </button>
           </div>
           <div id="budget-progress-list" class="budget-progress-list">
-            <!-- Dynamically generated in app.js -->
           </div>
         </div>
 
         <!-- Smart Insights Engine -->
         <div class="card widget-card">
-          <div class="card-header">
+          <div class="card-header card-header-enhanced">
             <div class="header-title-group">
-              <h3><i data-lucide="zap"></i> Smart Financial Insights</h3>
-              <span class="chart-subtitle">Automated rules & pattern alerts</span>
+              <div class="header-icon-accent header-icon-amber">
+                <i data-lucide="zap"></i>
+              </div>
+              <div>
+                <h3>Smart Financial Insights</h3>
+                <span class="chart-subtitle">Automated rules & pattern alerts</span>
+              </div>
             </div>
           </div>
           <div id="insights-container" class="insights-container">
-            <!-- Dynamically generated in app.js -->
           </div>
         </div>
 
@@ -279,83 +388,99 @@
 
       <!-- TRANSACTIONS TABLE SECTION -->
       <section class="card table-card">
-        <div class="card-header table-header">
+        <div class="card-header table-header card-header-enhanced">
           <div class="header-title-group">
-            <h3><i data-lucide="list"></i> Transactions</h3>
-            <span id="tx-count-badge" class="count-badge">0 items</span>
+            <div class="header-icon-accent header-icon-indigo">
+              <i data-lucide="list"></i>
+            </div>
+            <div>
+              <h3>Transaction Ledger</h3>
+              <span class="chart-subtitle"><span id="tx-count-badge" class="count-badge-inline">0 items</span></span>
+            </div>
           </div>
 
           <div class="table-actions">
             <button id="btn-clear-all" class="btn btn-danger-soft btn-sm" title="Clear all stored transactions">
-              <i data-lucide="trash-2"></i> Clear All Data
+              <i data-lucide="trash-2"></i> Clear All
             </button>
           </div>
         </div>
 
         <!-- Table Container -->
-        <div class="table-responsive">
-          <table class="data-table" id="transactions-table">
+        <div class="table-responsive table-container-enhanced">
+          <table class="data-table data-table-enhanced" id="transactions-table">
             <thead>
               <tr>
                 <th data-sort="date" class="sortable">
-                  Date <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  <span class="th-inner"><i data-lucide="calendar" class="th-icon"></i> Date <i data-lucide="chevrons-up-down" class="sort-icon"></i></span>
                 </th>
                 <th data-sort="description" class="sortable">
-                  Description <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  <span class="th-inner"><i data-lucide="file-text" class="th-icon"></i> Description <i data-lucide="chevrons-up-down" class="sort-icon"></i></span>
                 </th>
                 <th data-sort="category" class="sortable">
-                  Category <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  <span class="th-inner"><i data-lucide="tag" class="th-icon"></i> Category <i data-lucide="chevrons-up-down" class="sort-icon"></i></span>
                 </th>
                 <th data-sort="type" class="sortable text-center">
-                  Type <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  <span class="th-inner"><i data-lucide="shuffle" class="th-icon"></i> Type <i data-lucide="chevrons-up-down" class="sort-icon"></i></span>
                 </th>
                 <th data-sort="amount" class="sortable text-right">
-                  Amount <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  <span class="th-inner"><i data-lucide="dollar-sign" class="th-icon"></i> Amount <i data-lucide="chevrons-up-down" class="sort-icon"></i></span>
                 </th>
-                <th class="text-center">Action</th>
+                <th class="text-center">
+                  <span class="th-inner"><i data-lucide="more-horizontal" class="th-icon"></i></span>
+                </th>
               </tr>
             </thead>
             <tbody id="tx-table-body">
-              <!-- Dynamically populated in app.js -->
             </tbody>
           </table>
 
           <!-- Empty State Container -->
           <div id="empty-state" class="empty-state hidden">
-            <i data-lucide="file-up" class="empty-icon"></i>
-            <h4>No Financial Data Loaded</h4>
-            <p>Select your bank statement CSV file to clean, categorize, and display your dashboard output.</p>
-            <div class="empty-actions">
-              <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-empty').click()" title="Upload your bank CSV statement">
-                <i data-lucide="upload-cloud"></i>
-                <span>Upload CSV File</span>
-              </button>
-              <input type="file" id="csv-file-input-empty" accept=".csv" style="display: none;">
+            <div class="empty-state-inner">
+              <div class="empty-icon-wrap">
+                <i data-lucide="file-spreadsheet" class="empty-icon"></i>
+              </div>
+              <h4>No Financial Data Yet</h4>
+              <p>Upload your bank CSV statement to instantly clean, categorize, and visualize your finances.</p>
+              <div class="empty-actions">
+                <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-empty').click()" title="Upload your bank CSV statement">
+                  <i data-lucide="upload-cloud"></i>
+                  <span>Upload CSV File</span>
+                </button>
+                <input type="file" id="csv-file-input-empty" accept=".csv" style="display: none;">
+                <div class="empty-hint">
+                  <i data-lucide="shield-check"></i>
+                  <span>100% private. All data stays in your browser.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Table Pagination Footer -->
-        <div class="table-footer">
+        <div class="table-footer table-footer-enhanced">
           <div class="pagination-info">
-            Showing <span id="pag-start">0</span> - <span id="pag-end">0</span> of <span id="pag-total">0</span>
-            transactions
+            <i data-lucide="layout-list" class="pagination-info-icon"></i>
+            <span>Showing <strong id="pag-start">0</strong> – <strong id="pag-end">0</strong> of <strong id="pag-total">0</strong> transactions</span>
           </div>
           <div class="pagination-controls">
-            <label for="pag-size">Per page:</label>
+            <label for="pag-size" class="pag-size-label">Per page:</label>
             <select id="pag-size" class="form-select form-select-sm">
               <option value="15">15</option>
               <option value="30" selected>30</option>
               <option value="50">50</option>
               <option value="100">100</option>
             </select>
-            <button id="pag-prev" class="btn btn-icon btn-sm" title="Previous Page">
-              <i data-lucide="chevron-left"></i>
-            </button>
-            <span id="pag-current-page" class="page-indicator">Page 1 of 1</span>
-            <button id="pag-next" class="btn btn-icon btn-sm" title="Next Page">
-              <i data-lucide="chevron-right"></i>
-            </button>
+            <div class="pag-buttons">
+              <button id="pag-prev" class="btn btn-icon btn-sm pag-btn" title="Previous Page">
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <span id="pag-current-page" class="page-indicator">Page 1 of 1</span>
+              <button id="pag-next" class="btn btn-icon btn-sm pag-btn" title="Next Page">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -364,8 +489,24 @@
 
     <!-- FOOTER -->
     <footer class="app-footer">
-      <p>&copy; 2026 <strong>ApexFinance</strong> — 100% Client-Side Private Finance Dashboard. Data remains in your
-        browser's local storage.</p>
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="brand-logo brand-logo-sm">
+            <i data-lucide="wallet"></i>
+          </div>
+          <div>
+            <h4>ApexFinance</h4>
+            <p>Personal Finance & Budget Intelligence</p>
+          </div>
+        </div>
+        <div class="footer-privacy">
+          <div class="footer-privacy-badge">
+            <i data-lucide="shield-check"></i>
+            <span>100% Client-Side · Offline-First · Zero Server Tracking</span>
+          </div>
+          <p class="copyright">&copy; 2026 ApexFinance. Built with precision.</p>
+        </div>
+      </div>
     </footer>
   </div>
 
@@ -407,7 +548,6 @@
         <div class="form-group">
           <label for="tx-input-category">Category</label>
           <select id="tx-input-category" class="form-select" required>
-            <!-- Populated dynamically -->
           </select>
         </div>
 
@@ -429,7 +569,6 @@
       <p class="modal-subtitle">Set maximum monthly target limits for each expense category.</p>
 
       <div id="budget-inputs-container" class="budget-inputs-container">
-        <!-- Dynamically generated in app.js -->
       </div>
 
       <div class="modal-footer">
@@ -446,8 +585,7 @@
         <h3><i data-lucide="file-spreadsheet"></i> Map CSV Columns</h3>
         <button id="modal-csv-close" class="btn-close">&times;</button>
       </div>
-      <p class="modal-subtitle">Select which columns in your uploaded CSV correspond to Date, Description, and Amount.
-      </p>
+      <p class="modal-subtitle">Select which columns in your uploaded CSV correspond to Date, Description, and Amount.</p>
 
       <!-- Sample Data Preview -->
       <div class="csv-preview-container">
