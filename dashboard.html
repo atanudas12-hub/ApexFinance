@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ApexFinance — Personal Finance & Budget Dashboard</title>
+  <title>ApexFinance — Executive Personal Finance Dashboard</title>
   <meta name="description"
     content="A powerful, private, offline-first personal finance dashboard for CSV analysis, auto-categorization, budgeting, and insights.">
 
@@ -27,6 +27,22 @@
 </head>
 
 <body>
+  <!-- FIGMA DASHBOARD PRELOADER SCREEN -->
+  <div id="app-preloader" class="app-preloader">
+    <div class="preloader-glass-card">
+      <div class="preloader-spinner-wrapper">
+        <div class="preloader-spinner"></div>
+        <div class="preloader-icon">
+          <i data-lucide="wallet"></i>
+        </div>
+      </div>
+      <div class="preloader-text">
+        <h3>ApexFinance Engine</h3>
+        <p>Initializing offline financial intelligence...</p>
+      </div>
+    </div>
+  </div>
+
   <div class="app-container">
 
     <!-- TOP NAVIGATION HEADER -->
@@ -38,6 +54,7 @@
           </div>
           <div class="brand-text">
             <h1>ApexFinance</h1>
+            <span class="badge-pro">PRO DASHBOARD</span>
           </div>
         </a>
       </div>
@@ -81,293 +98,332 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <main class="dashboard-main">
 
-      <!-- TOP METRIC SUMMARY CARDS -->
-      <section class="summary-grid">
-        <!-- Income Card -->
-        <div class="card metric-card metric-income">
-          <div class="metric-header">
-            <span class="metric-title">Total Income</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-up"></i>
-            </div>
+      <!-- SECTION 1: EXECUTIVE KPI METRIC CARDS -->
+      <section class="dashboard-section">
+        <div class="section-title-bar">
+          <div class="title-with-icon">
+            <i data-lucide="layout-grid" class="title-icon"></i>
+            <h2>Executive Overview</h2>
           </div>
-          <div class="metric-value" id="val-income">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-income-tx">0 transactions</span>
-          </div>
+          <span class="section-status-tag">
+            <span class="status-dot"></span> Real-Time Analytics
+          </span>
         </div>
 
-        <!-- Expenses Card -->
-        <div class="card metric-card metric-expense">
-          <div class="metric-header">
-            <span class="metric-title">Total Expenses</span>
-            <div class="metric-icon">
-              <i data-lucide="trending-down"></i>
+        <div class="summary-grid">
+          <!-- Income Card -->
+          <div class="card metric-card metric-income">
+            <div class="metric-header">
+              <span class="metric-title">Total Income</span>
+              <div class="metric-icon">
+                <i data-lucide="trending-up"></i>
+              </div>
+            </div>
+            <div class="metric-value" id="val-income">$0.00</div>
+            <div class="metric-subtext">
+              <span id="sub-income-tx" class="trend-chip positive">0 transactions</span>
             </div>
           </div>
-          <div class="metric-value" id="val-expenses">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-expense-tx">0 transactions</span>
-          </div>
-        </div>
 
-        <!-- Net Savings Card -->
-        <div class="card metric-card metric-savings">
-          <div class="metric-header">
-            <span class="metric-title">Net Savings</span>
-            <div class="metric-icon">
-              <i data-lucide="piggy-bank"></i>
+          <!-- Expenses Card -->
+          <div class="card metric-card metric-expense">
+            <div class="metric-header">
+              <span class="metric-title">Total Expenses</span>
+              <div class="metric-icon">
+                <i data-lucide="trending-down"></i>
+              </div>
+            </div>
+            <div class="metric-value" id="val-expenses">$0.00</div>
+            <div class="metric-subtext">
+              <span id="sub-expense-tx" class="trend-chip negative">0 transactions</span>
             </div>
           </div>
-          <div class="metric-value" id="val-savings">$0.00</div>
-          <div class="metric-subtext">
-            <span id="sub-savings">Income minus Expenses</span>
-          </div>
-        </div>
 
-        <!-- Savings Rate Card -->
-        <div class="card metric-card metric-rate">
-          <div class="metric-header">
-            <span class="metric-title">Savings Rate</span>
-            <div class="metric-icon">
-              <i data-lucide="percent"></i>
+          <!-- Net Savings Card -->
+          <div class="card metric-card metric-savings">
+            <div class="metric-header">
+              <span class="metric-title">Net Savings</span>
+              <div class="metric-icon">
+                <i data-lucide="piggy-bank"></i>
+              </div>
+            </div>
+            <div class="metric-value" id="val-savings">$0.00</div>
+            <div class="metric-subtext">
+              <span id="sub-savings" class="trend-chip info">Income minus Expenses</span>
             </div>
           </div>
-          <div class="metric-value" id="val-savings-rate">0.0%</div>
-          <div class="metric-subtext">
-            <span id="sub-savings-rate">Target > 20%</span>
+
+          <!-- Savings Rate Card -->
+          <div class="card metric-card metric-rate">
+            <div class="metric-header">
+              <span class="metric-title">Savings Rate</span>
+              <div class="metric-icon">
+                <i data-lucide="percent"></i>
+              </div>
+            </div>
+            <div class="metric-value" id="val-savings-rate">0.0%</div>
+            <div class="metric-subtext">
+              <span id="sub-savings-rate" class="trend-chip neutral">Target > 20%</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- FILTER & TOOLBAR SECTION -->
-      <section class="card filter-toolbar">
-        <div class="search-box">
-          <i data-lucide="search" class="search-icon"></i>
-          <input type="text" id="filter-search" placeholder="Search payee, merchant, description..."
-            aria-label="Search transactions">
-          <button id="btn-clear-search" class="btn-clear-search hidden">&times;</button>
+      <!-- SECTION 2: CHARTS & VISUALIZATIONS GRID -->
+      <section class="dashboard-section">
+        <div class="section-title-bar">
+          <div class="title-with-icon">
+            <i data-lucide="pie-chart" class="title-icon"></i>
+            <h2>Financial Analytics &amp; Distribution</h2>
+          </div>
         </div>
 
-        <div class="filter-controls">
-          <!-- Timeframe Preset -->
-          <div class="filter-group">
-            <label for="filter-date-preset">Timeframe:</label>
-            <select id="filter-date-preset" class="form-select">
-              <option value="all" selected>All Time</option>
-              <option value="this_month">This Month</option>
-              <option value="last_month">Last Month</option>
-              <option value="3_months">Last 3 Months</option>
-              <option value="year_to_date">Year to Date</option>
-              <option value="custom">Custom Date Range</option>
-            </select>
+        <div class="charts-grid">
+          <!-- Monthly Spending Trend (Area/Line) -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div class="header-title-group">
+                <h3><i data-lucide="trending-up"></i> Monthly Spending Trend</h3>
+                <span class="chart-subtitle">Outflow patterns over time</span>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-trend"></canvas>
+            </div>
           </div>
 
-          <!-- Custom Date Range inputs (hidden by default) -->
-          <div id="custom-date-group" class="filter-group custom-date-group hidden">
-            <input type="date" id="filter-start-date" class="form-input form-input-sm" aria-label="Start date">
-            <span>to</span>
-            <input type="date" id="filter-end-date" class="form-input form-input-sm" aria-label="End date">
+          <!-- Breakdown by Category (Doughnut) -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div class="header-title-group">
+                <h3><i data-lucide="pie-chart"></i> Spending by Category</h3>
+                <span class="chart-subtitle">Distribution of total expenses</span>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-doughnut"></canvas>
+            </div>
           </div>
 
-          <!-- Category Filter -->
-          <div class="filter-group">
-            <label for="filter-category">Category:</label>
-            <select id="filter-category" class="form-select">
-              <option value="all">All Categories</option>
-              <!-- Dynamically populated in app.js -->
-            </select>
+          <!-- Income vs Expenses Comparison (Bar) -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div class="header-title-group">
+                <h3><i data-lucide="bar-chart-3"></i> Income vs Expenses</h3>
+                <span class="chart-subtitle">Monthly inflow vs outflow</span>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-income-vs-expense"></canvas>
+            </div>
           </div>
 
-          <!-- Type Filter -->
-          <div class="filter-group">
-            <label for="filter-type">Type:</label>
-            <select id="filter-type" class="form-select">
-              <option value="all">All Types</option>
-              <option value="expense">Expenses Only</option>
-              <option value="income">Income Only</option>
-            </select>
-          </div>
-
-          <!-- Filter Actions -->
-          <div class="filter-actions">
-            <button id="btn-reset-filters" class="btn btn-ghost btn-sm" title="Reset all filters">
-              <i data-lucide="rotate-ccw"></i> Reset
-            </button>
-            <button id="btn-export-csv" class="btn btn-outline btn-sm" title="Export filtered list to CSV">
-              <i data-lucide="download"></i> Export CSV
-            </button>
+          <!-- Category Spend Over Time (Stacked Bar) -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <div class="header-title-group">
+                <h3><i data-lucide="layers"></i> Category Spend Dynamics</h3>
+                <span class="chart-subtitle">Stacked monthly category breakdowns</span>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-stacked-category"></canvas>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- CHARTS & VISUALIZATIONS GRID -->
-      <section class="charts-grid">
-        <!-- Monthly Spending Trend (Area/Line) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="trending-up"></i> Monthly Spending Trend</h3>
-              <span class="chart-subtitle">Outflow patterns over time</span>
-            </div>
-          </div>
-          <div class="chart-container">
-            <canvas id="chart-trend"></canvas>
+      <!-- SECTION 3: BUDGET TARGETS & INTELLIGENCE ALERTS -->
+      <section class="dashboard-section">
+        <div class="section-title-bar">
+          <div class="title-with-icon">
+            <i data-lucide="target" class="title-icon"></i>
+            <h2>Budgets &amp; Smart Insights</h2>
           </div>
         </div>
 
-        <!-- Breakdown by Category (Doughnut) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="pie-chart"></i> Spending by Category</h3>
-              <span class="chart-subtitle">Distribution of total expenses</span>
-            </div>
-          </div>
-          <div class="chart-container">
-            <canvas id="chart-doughnut"></canvas>
-          </div>
-        </div>
-
-        <!-- Income vs Expenses Comparison (Bar) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="bar-chart-3"></i> Income vs Expenses</h3>
-              <span class="chart-subtitle">Monthly inflow vs outflow</span>
-            </div>
-          </div>
-          <div class="chart-container">
-            <canvas id="chart-income-vs-expense"></canvas>
-          </div>
-        </div>
-
-        <!-- Category Spend Over Time (Stacked Bar) -->
-        <div class="card chart-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="layers"></i> Category Spend Dynamics</h3>
-              <span class="chart-subtitle">Stacked monthly category breakdowns</span>
-            </div>
-          </div>
-          <div class="chart-container">
-            <canvas id="chart-stacked-category"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <!-- INSIGHTS & BUDGETS GRID -->
-      <section class="insights-budget-grid">
-        <!-- Monthly Budgets Widget -->
-        <div class="card widget-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="target"></i> Category Monthly Budgets</h3>
-              <span class="chart-subtitle">Target spending limits</span>
-            </div>
-            <button id="btn-edit-budgets" class="btn btn-ghost btn-sm">
-              <i data-lucide="settings"></i> Manage Budgets
-            </button>
-          </div>
-          <div id="budget-progress-list" class="budget-progress-list">
-            <!-- Dynamically generated in app.js -->
-          </div>
-        </div>
-
-        <!-- Smart Insights Engine -->
-        <div class="card widget-card">
-          <div class="card-header">
-            <div class="header-title-group">
-              <h3><i data-lucide="zap"></i> Smart Financial Insights</h3>
-              <span class="chart-subtitle">Automated rules & pattern alerts</span>
-            </div>
-          </div>
-          <div id="insights-container" class="insights-container">
-            <!-- Dynamically generated in app.js -->
-          </div>
-        </div>
-
-      </section>
-
-      <!-- TRANSACTIONS TABLE SECTION -->
-      <section class="card table-card">
-        <div class="card-header table-header">
-          <div class="header-title-group">
-            <h3><i data-lucide="list"></i> Transactions</h3>
-            <span id="tx-count-badge" class="count-badge">0 items</span>
-          </div>
-
-          <div class="table-actions">
-            <button id="btn-clear-all" class="btn btn-danger-soft btn-sm" title="Clear all stored transactions">
-              <i data-lucide="trash-2"></i> Clear All Data
-            </button>
-          </div>
-        </div>
-
-        <!-- Table Container -->
-        <div class="table-responsive">
-          <table class="data-table" id="transactions-table">
-            <thead>
-              <tr>
-                <th data-sort="date" class="sortable">
-                  Date <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="description" class="sortable">
-                  Description <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="category" class="sortable">
-                  Category <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="type" class="sortable text-center">
-                  Type <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th data-sort="amount" class="sortable text-right">
-                  Amount <i data-lucide="chevrons-up-down" class="sort-icon"></i>
-                </th>
-                <th class="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody id="tx-table-body">
-              <!-- Dynamically populated in app.js -->
-            </tbody>
-          </table>
-
-          <!-- Empty State Container -->
-          <div id="empty-state" class="empty-state hidden">
-            <i data-lucide="file-up" class="empty-icon"></i>
-            <h4>No Financial Data Loaded</h4>
-            <p>Select your bank statement CSV file to clean, categorize, and display your dashboard output.</p>
-            <div class="empty-actions">
-              <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-empty').click()" title="Upload your bank CSV statement">
-                <i data-lucide="upload-cloud"></i>
-                <span>Upload CSV File</span>
+        <div class="insights-budget-grid">
+          <!-- Monthly Budgets Widget -->
+          <div class="card widget-card">
+            <div class="card-header">
+              <div class="header-title-group">
+                <h3><i data-lucide="target"></i> Category Monthly Budgets</h3>
+                <span class="chart-subtitle">Target spending limits</span>
+              </div>
+              <button id="btn-edit-budgets" class="btn btn-ghost btn-sm">
+                <i data-lucide="settings"></i> Manage Budgets
               </button>
-              <input type="file" id="csv-file-input-empty" accept=".csv" style="display: none;">
+            </div>
+            <div id="budget-progress-list" class="budget-progress-list">
+              <!-- Dynamically generated in app.js -->
+            </div>
+          </div>
+
+          <!-- Smart Insights Engine -->
+          <div class="card widget-card">
+            <div class="card-header">
+              <div class="header-title-group">
+                <h3><i data-lucide="zap"></i> Smart Financial Insights</h3>
+                <span class="chart-subtitle">Automated rules &amp; pattern alerts</span>
+              </div>
+            </div>
+            <div id="insights-container" class="insights-container">
+              <!-- Dynamically generated in app.js -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: TRANSACTIONS TABLE SECTION -->
+      <section class="dashboard-section">
+        <div class="section-title-bar">
+          <div class="title-with-icon">
+            <i data-lucide="list" class="title-icon"></i>
+            <h2>Transaction Ledger</h2>
+          </div>
+        </div>
+
+        <!-- FILTER & TOOLBAR CARD -->
+        <div class="card filter-toolbar">
+          <div class="search-box">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="filter-search" placeholder="Search payee, merchant, description..."
+              aria-label="Search transactions">
+            <button id="btn-clear-search" class="btn-clear-search hidden">&times;</button>
+          </div>
+
+          <div class="filter-controls">
+            <!-- Timeframe Preset -->
+            <div class="filter-group">
+              <label for="filter-date-preset">Timeframe:</label>
+              <select id="filter-date-preset" class="form-select">
+                <option value="all" selected>All Time</option>
+                <option value="this_month">This Month</option>
+                <option value="last_month">Last Month</option>
+                <option value="3_months">Last 3 Months</option>
+                <option value="year_to_date">Year to Date</option>
+                <option value="custom">Custom Date Range</option>
+              </select>
+            </div>
+
+            <!-- Custom Date Range inputs (hidden by default) -->
+            <div id="custom-date-group" class="filter-group custom-date-group hidden">
+              <input type="date" id="filter-start-date" class="form-input form-input-sm" aria-label="Start date">
+              <span>to</span>
+              <input type="date" id="filter-end-date" class="form-input form-input-sm" aria-label="End date">
+            </div>
+
+            <!-- Category Filter -->
+            <div class="filter-group">
+              <label for="filter-category">Category:</label>
+              <select id="filter-category" class="form-select">
+                <option value="all">All Categories</option>
+                <!-- Dynamically populated in app.js -->
+              </select>
+            </div>
+
+            <!-- Type Filter -->
+            <div class="filter-group">
+              <label for="filter-type">Type:</label>
+              <select id="filter-type" class="form-select">
+                <option value="all">All Types</option>
+                <option value="expense">Expenses Only</option>
+                <option value="income">Income Only</option>
+              </select>
+            </div>
+
+            <!-- Filter Actions -->
+            <div class="filter-actions">
+              <button id="btn-reset-filters" class="btn btn-ghost btn-sm" title="Reset all filters">
+                <i data-lucide="rotate-ccw"></i> Reset
+              </button>
+              <button id="btn-export-csv" class="btn btn-outline btn-sm" title="Export filtered list to CSV">
+                <i data-lucide="download"></i> Export CSV
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Table Pagination Footer -->
-        <div class="table-footer">
-          <div class="pagination-info">
-            Showing <span id="pag-start">0</span> - <span id="pag-end">0</span> of <span id="pag-total">0</span>
-            transactions
+        <!-- TABLE CARD -->
+        <div class="card table-card" style="margin-top: 1rem;">
+          <div class="card-header table-header">
+            <div class="header-title-group">
+              <h3><i data-lucide="file-text"></i> Records Ledger</h3>
+              <span id="tx-count-badge" class="count-badge">0 items</span>
+            </div>
+
+            <div class="table-actions">
+              <button id="btn-clear-all" class="btn btn-danger-soft btn-sm" title="Clear all stored transactions">
+                <i data-lucide="trash-2"></i> Clear All Data
+              </button>
+            </div>
           </div>
-          <div class="pagination-controls">
-            <label for="pag-size">Per page:</label>
-            <select id="pag-size" class="form-select form-select-sm">
-              <option value="15">15</option>
-              <option value="30" selected>30</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-            <button id="pag-prev" class="btn btn-icon btn-sm" title="Previous Page">
-              <i data-lucide="chevron-left"></i>
-            </button>
-            <span id="pag-current-page" class="page-indicator">Page 1 of 1</span>
-            <button id="pag-next" class="btn btn-icon btn-sm" title="Next Page">
-              <i data-lucide="chevron-right"></i>
-            </button>
+
+          <!-- Table Container -->
+          <div class="table-responsive">
+            <table class="data-table" id="transactions-table">
+              <thead>
+                <tr>
+                  <th data-sort="date" class="sortable">
+                    Date <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  </th>
+                  <th data-sort="description" class="sortable">
+                    Description <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  </th>
+                  <th data-sort="category" class="sortable">
+                    Category <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  </th>
+                  <th data-sort="type" class="sortable text-center">
+                    Type <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  </th>
+                  <th data-sort="amount" class="sortable text-right">
+                    Amount <i data-lucide="chevrons-up-down" class="sort-icon"></i>
+                  </th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="tx-table-body">
+                <!-- Dynamically populated in app.js -->
+              </tbody>
+            </table>
+
+            <!-- Empty State Container -->
+            <div id="empty-state" class="empty-state hidden">
+              <i data-lucide="file-up" class="empty-icon"></i>
+              <h4>No Financial Data Loaded</h4>
+              <p>Select your bank statement CSV file to clean, categorize, and display your dashboard output.</p>
+              <div class="empty-actions">
+                <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('csv-file-input-empty').click()" title="Upload your bank CSV statement">
+                  <i data-lucide="upload-cloud"></i>
+                  <span>Upload CSV File</span>
+                </button>
+                <input type="file" id="csv-file-input-empty" accept=".csv" style="display: none;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Table Pagination Footer -->
+          <div class="table-footer">
+            <div class="pagination-info">
+              Showing <span id="pag-start">0</span> - <span id="pag-end">0</span> of <span id="pag-total">0</span>
+              transactions
+            </div>
+            <div class="pagination-controls">
+              <label for="pag-size">Per page:</label>
+              <select id="pag-size" class="form-select form-select-sm">
+                <option value="15">15</option>
+                <option value="30" selected>30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <button id="pag-prev" class="btn btn-icon btn-sm" title="Previous Page">
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <span id="pag-current-page" class="page-indicator">Page 1 of 1</span>
+              <button id="pag-next" class="btn btn-icon btn-sm" title="Next Page">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
           </div>
         </div>
       </section>
